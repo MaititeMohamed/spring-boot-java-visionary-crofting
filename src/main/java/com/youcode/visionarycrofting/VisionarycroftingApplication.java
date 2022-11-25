@@ -10,4 +10,5 @@ public class VisionarycroftingApplication {
 		SpringApplication.run(VisionarycroftingApplication.class, args);
 	}
 
+
 }
