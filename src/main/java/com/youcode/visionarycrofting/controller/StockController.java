@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path="/stock")
+@RequestMapping(path="/visionarycrofting/stock")
 public class StockController {
     @Autowired
     StockService stockService;
@@ -38,13 +38,7 @@ public class StockController {
     @PutMapping(path = "/update/{stockid}")
     public void updateStock(
             @PathVariable("stockid") Long id , @RequestBody Stock stock){
-        Optional<Stock> stockFromDB = stockService.findById(id);
-        stockFromDB.get().setPhone(stock.getPhone());
-        stockFromDB.get().setPassword(stock.getPassword());
-        stockFromDB.get().setAddress(stock.getAddress());
-        stockFromDB.get().setEmail(stock.getEmail());
-        stockFromDB.get().setName(stock.getName());
-        stockService.updateStock(stockFromDB.get());
+        stockService.updateStock(id , stock);
     }
 
 }
