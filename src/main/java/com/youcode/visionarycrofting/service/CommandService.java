@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -54,6 +56,7 @@ public class CommandService {
     @Transactional
     public  void updateCommand(Long id,
                                String ref,
+                               String dateTime,
                                String address,
                                int totalPrice
                                ){
@@ -65,6 +68,9 @@ public class CommandService {
         if (ref !=null && ref.length()>0 && !Objects.equals(command.getRef(),ref)){
             command.setRef(ref);
         }
+        if(dateTime!=null && dateTime.length()>0 && !Objects.equals(command.getDateTime(),dateTime)){
+            command.setDateTime(dateTime);
+        }
 
         if (address !=null && address.length()>0 && !Objects.equals(command.getAddress(),address)){
             command.setAddress(address);
@@ -74,5 +80,16 @@ public class CommandService {
             command.setTotalPrice(totalPrice);
         }
     }
+    @Transactional
+    public  Command updateCommand(Command command){
 
+    Command  commandUpdated=commandRepository.findById(command.getId())
+    .orElseThrow(()->new IllegalArgumentException("Command withe id "+command.getId()+" dos not exists")) ;
+    commandUpdated.setRef(command.getRef());
+    commandUpdated.setDateTime(command.getDateTime());
+    commandUpdated.setTotalPrice(command.getTotalPrice());
+    commandUpdated.setAddress(command.getAddress());
+
+        return  commandUpdated;
+    }
 }
