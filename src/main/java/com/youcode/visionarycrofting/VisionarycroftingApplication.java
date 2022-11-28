@@ -13,6 +13,4 @@ public class VisionarycroftingApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(VisionarycroftingApplication.class, args);
 	}
-
-
 }
