@@ -4,8 +4,8 @@ package com.youcode.visionarycrofting.entity;
 
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+
+
 
 
 @Entity
@@ -16,26 +16,26 @@ public class Command {
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  private Long id;
  private  String ref;
- private Date  dateTime;
+
+ private String dateTime;
  private int totalPrice ;
  private String address;
  //private List<Object> listItem;
 
- public Command(Long id, String ref, Date dateTime, int totalPrice, String address, List<Object> listItem) {
+
+ public Command(Long id, String ref, String dateTime, int totalPrice, String address) {
   this.id = id;
   this.ref = ref;
   this.dateTime = dateTime;
   this.totalPrice = totalPrice;
   this.address = address;
-  //this.listItem = listItem;
  }
 
- public Command(String ref, Date dateTime, int totalPrice, String address, List<Object> listItem) {
+ public Command(String ref, String dateTime, int totalPrice, String address) {
   this.ref = ref;
   this.dateTime = dateTime;
   this.totalPrice = totalPrice;
   this.address = address;
- // this.listItem = listItem;
  }
 
  public Command() {
@@ -58,11 +58,11 @@ public class Command {
   this.ref = ref;
  }
 
- public Date getDateTime() {
+ public String getDateTime() {
   return dateTime;
  }
 
- public void setDateTime(Date dateTime) {
+ public void setDateTime(String dateTime) {
   this.dateTime = dateTime;
  }
 
@@ -80,25 +80,5 @@ public class Command {
 
  public void setAddress(String address) {
   this.address = address;
- }
-
- /*public List<Object> getListItem() {
-  return listItem;
- }
-
- public void setListItem(List<Object> listItem) {
-  this.listItem = listItem;
- }*/
-
- @Override
- public String toString() {
-  return "Command{" +
-          "id=" + id +
-          ", ref='" + ref + '\'' +
-          ", dateTime=" + dateTime +
-          ", totalPrice=" + totalPrice +
-          ", address='" + address + '\'' +
-          //", listItem=" + listItem +
-          '}';
  }
 }
