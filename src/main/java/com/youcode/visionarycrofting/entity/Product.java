@@ -113,9 +113,7 @@ public class Product {
         this.category = category;
     }
 
-    public void setQuantity ( Integer quantity ) {
-        this.quantity = quantity;
-    }
+    public void setQuantity ( Integer quantity ) { this.quantity = quantity;}
 
     public void setMinQuantity ( Integer minQuantity ) {
         this.minQuantity = minQuantity;
@@ -131,5 +129,19 @@ public class Product {
             return false;
         Product product = (Product) o;
         return id != null && Objects.equals ( id , product.id );
+    }
+
+    @Override
+    public String toString ( ) {
+        return "Product{" +
+                "id=" + id +
+                ", productReference='" + productReference + '\'' +
+                ", name='" + name + '\'' +
+                ", unitaryPrice=" + unitaryPrice +
+                ", description='" + description + '\'' +
+                ", category='" + category + '\'' +
+                ", quantity=" + quantity +
+                ", minQuantity=" + minQuantity +
+                '}';
     }
 }
