@@ -34,10 +34,15 @@ public class StockService {
         return stockRepository.findById(id);
     }
 
-    public void updateStock(Stock stock) {
+    public void updateStock(Long id ,Stock stock) {
 //        if(stockRepository.existsById(id)){
-
-            stockRepository.save(stock);
+        Optional<Stock> stockFromDB = stockRepository.findById(id);
+        stockFromDB.get().setPhone(stock.getPhone());
+        stockFromDB.get().setPassword(stock.getPassword());
+        stockFromDB.get().setAddress(stock.getAddress());
+        stockFromDB.get().setEmail(stock.getEmail());
+        stockFromDB.get().setName(stock.getName());
+        stockRepository.save(stockFromDB.get());
 
 //        }
     }
