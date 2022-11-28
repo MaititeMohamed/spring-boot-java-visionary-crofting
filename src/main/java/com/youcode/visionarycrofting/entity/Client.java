@@ -16,9 +16,6 @@ public class Client implements Serializable {
     private String phone;
     private String address;
 
-
-
-
     public Client(String name, String email, String password, String phone, String address ){
         this.name = name;
         this.email = email;
