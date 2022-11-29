@@ -1,10 +1,6 @@
 package com.youcode.visionarycrofting.entity;
-
-
-
-
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -16,36 +12,39 @@ public class Command {
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  private Long id;
  private  String ref;
- private Date  dateTime;
+
+ private String dateTime;
  private int totalPrice ;
  private String address;
 
  @ManyToOne
  private Client client;
+ @OneToMany(mappedBy = "command")
+ private List<CommandItem> listItem = new ArrayList <> (  );
 
- public Client getClient() {
-  return client;
- }
-
- public void setClient(Client client) {
-  this.client = client;
- }
-
- public Command(Long id, String ref, Date dateTime, int totalPrice, String address, Client client) {
+ public Command(Long id, String ref, String dateTime, int totalPrice, String address, List<CommandItem> listItem) {
   this.id = id;
   this.ref = ref;
   this.dateTime = dateTime;
   this.totalPrice = totalPrice;
   this.address = address;
-  this.client = client;
+  this.listItem = listItem;
  }
 
- public Command(String ref, Date dateTime, int totalPrice, String address, Client client) {
+ public Command(String ref, String dateTime, int totalPrice, String address, List<CommandItem> listItem) {
   this.ref = ref;
   this.dateTime = dateTime;
   this.totalPrice = totalPrice;
   this.address = address;
-  this.client = client;
+  this.listItem = listItem;
+ }
+
+ public List<CommandItem> getListItem() {
+  return listItem;
+ }
+
+ public void setListItem(List<CommandItem> listItem) {
+  this.listItem = listItem;
  }
 
  public Command() {
@@ -68,11 +67,11 @@ public class Command {
   this.ref = ref;
  }
 
- public Date getDateTime() {
+ public String getDateTime() {
   return dateTime;
  }
 
- public void setDateTime(Date dateTime) {
+ public void setDateTime(String dateTime) {
   this.dateTime = dateTime;
  }
 
@@ -92,23 +91,15 @@ public class Command {
   this.address = address;
  }
 
- /*public List<Object> getListItem() {
-  return listItem;
- }
-
- public void setListItem(List<Object> listItem) {
-  this.listItem = listItem;
- }*/
-
  @Override
  public String toString() {
   return "Command{" +
           "id=" + id +
           ", ref='" + ref + '\'' +
-          ", dateTime=" + dateTime +
+          ", dateTime='" + dateTime + '\'' +
           ", totalPrice=" + totalPrice +
           ", address='" + address + '\'' +
-          ", client=" + client +
+          ", listItem=" + listItem +
           '}';
  }
 }

@@ -2,6 +2,7 @@ package com.youcode.visionarycrofting.service;
 
 
 import com.youcode.visionarycrofting.entity.Client;
+import com.youcode.visionarycrofting.entity.Command;
 import com.youcode.visionarycrofting.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,5 +71,15 @@ public class ClientService {
         clientRepository.save(clientUpdated);
 
 return clientUpdated;
+    }
+
+
+    public void addCommand(Command command, Long id) {
+
+        Optional<Client> clientOptional=clientRepository.findById(id);
+
+        clientOptional.get().setCommand(command);
+        clientRepository.save(clientOptional.get());
+
     }
 }

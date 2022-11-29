@@ -1,10 +1,14 @@
 package com.youcode.visionarycrofting.controller;
 
 
+import com.youcode.visionarycrofting.classes.PasserCommande;
 import com.youcode.visionarycrofting.entity.Client;
+import com.youcode.visionarycrofting.entity.Command;
 import com.youcode.visionarycrofting.service.ClientService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,4 +52,19 @@ private final ClientService clientService;
     {
         clientService.updateClient(client);
     }
+
+
+    @PostMapping("/passer_commande/{id}")
+    @ResponseBody
+    public Client passerCommande(@PathVariable Long id,@RequestBody Collection<PasserCommande> productList)
+    {
+
+        
+        Command command= commandService.createCommand(productList);
+       clientService.addCommand(command, id);
+
+        System.out.println(productList.toString());
+        return new Client();
+    }
+
 }

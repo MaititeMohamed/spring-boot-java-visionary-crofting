@@ -1,49 +1,55 @@
 package com.youcode.visionarycrofting.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
-public class Client implements Serializable {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Stock {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
     private String password;
     private String phone;
     private String address;
+//
 
+    //@ManyToMany
+    //private List<TestProduct> productList = new ArrayList<>();
+    @ManyToMany
+    private List<Product> productList = new ArrayList <> (  );
 
-    @OneToMany (mappedBy = "client")
-    private List<Command> commandList;
-
-
-    public Client(Long id, String name, String email, String password, String phone, String address) {
+    public Stock(Long id, String name, String email, String password, String phone, String address, List<TestProduct> productList, List<TestProduct> providerList) {
         this.id = id;
-
         this.name = name;
         this.email = email;
         this.password = password;
         this.phone = phone;
         this.address = address;
-
     }
 
-    public List<Command> getCommandList() {
-        return commandList;
+    public Stock(String name, String email, String password, String phone, String address) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
     }
+//    public Stock(String name, String email, String password, String phone, String address) {
+//        this.name = name;
+//        this.email = email;
+//        this.password = password;
+//        this.phone = phone;
+//        this.address = address;
+//    }
+    public Stock(){}
 
-    public void setCommandList(List<Command> commandList) {
-        this.commandList = commandList;
-    }
-
-    public void setCommand(Command command) {
-        this.commandList.add(command) ;
-    }
-    public Client() {
+    public Stock(Long id, String name, String email, String password, String phone, String address) {
     }
 
     public Long getId() {
@@ -97,16 +103,13 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "Client{" +
+        return "Stock{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-
                 '}';
     }
-
-
 }

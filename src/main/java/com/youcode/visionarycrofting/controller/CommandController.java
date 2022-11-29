@@ -7,6 +7,7 @@ import com.youcode.visionarycrofting.service.CommandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -39,12 +40,20 @@ public class CommandController {
    public  void updateCommand(
            @PathVariable("id")Long id,
            @RequestParam(required = false) String ref,
+           @RequestParam(required = false) String dateTime,
            @RequestParam(required = false) String address,
            @RequestParam(required = false) int totalPrice
      ){
 
-       commandService.updateCommand(id,ref,address,totalPrice);
+       commandService.updateCommand(id,ref,dateTime,address,totalPrice);
 
    }
+
+    @PutMapping(path = "/update")
+    public Command updateCommand(@RequestBody  Command command){
+        commandService.updateCommand(command);
+        return command;
+    }
+
 
 }
