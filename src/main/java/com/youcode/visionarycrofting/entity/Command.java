@@ -91,6 +91,10 @@ public class Command {
   this.address = address;
  }
 
+ public void setItem(CommandItem commandItem){
+  this.listItem.add(commandItem);
+ }
+
  @Override
  public String toString() {
   return "Command{" +

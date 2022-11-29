@@ -1,25 +1,27 @@
 package com.youcode.visionarycrofting.service;
 
 
+import com.youcode.visionarycrofting.classes.PasserCommande;
 import com.youcode.visionarycrofting.entity.Client;
 import com.youcode.visionarycrofting.entity.Command;
 import com.youcode.visionarycrofting.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class ClientService {
 
     private final ClientRepository clientRepository;
+    private final CommandService commandService;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientRepository clientRepository, CommandService commandService) {
         this.clientRepository = clientRepository;
+        this.commandService = commandService;
     }
 
     public List<Client> getClients()
@@ -74,12 +76,17 @@ return clientUpdated;
     }
 
 
-    public void addCommand(Command command, Long id) {
+    public Client addCommand(Command command, Long id) {
 
         Optional<Client> clientOptional=clientRepository.findById(id);
 
         clientOptional.get().setCommand(command);
         clientRepository.save(clientOptional.get());
+        return clientOptional.get();
+    }
 
+    public Client passerCommande(Long id, Collection<PasserCommande> productList) {
+        Command command = commandService.createCommand(productList);
+        return addCommand(command, id);
     }
 }

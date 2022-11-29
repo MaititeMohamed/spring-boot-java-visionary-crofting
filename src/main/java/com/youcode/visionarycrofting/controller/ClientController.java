@@ -58,13 +58,7 @@ private final ClientService clientService;
     @ResponseBody
     public Client passerCommande(@PathVariable Long id,@RequestBody Collection<PasserCommande> productList)
     {
-
-        
-        Command command= commandService.createCommand(productList);
-       clientService.addCommand(command, id);
-
-        System.out.println(productList.toString());
-        return new Client();
+        return clientService.passerCommande(id, productList);
     }
 
 }

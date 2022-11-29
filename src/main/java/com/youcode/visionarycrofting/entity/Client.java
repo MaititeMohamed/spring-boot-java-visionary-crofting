@@ -104,7 +104,6 @@ public class Client implements Serializable {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-
                 '}';
     }
 
