@@ -34,16 +34,12 @@ public class providerController {
         providerService.deleteProvider(providerId);
     }
 
-    @PutMapping("/updateProvider/{providerId}")
-    public void updateProvider(@PathVariable("providerId") Long providerId,
-                               @RequestParam(required = false) String firstName,
-                               @RequestParam(required = false) String lastName,
-                               @RequestParam(required = false) String email,
-                               @RequestParam(required = false) String password,
-                               @RequestParam(required = false) String phone,
-                               @RequestParam(required = false) String address)
+    @PutMapping("/updateProvider")
+    @ResponseBody
+    public Provider updateProvider(@RequestBody Provider provider)
     {
 
-        providerService.updateProvider(providerId, firstName,lastName,email,password,phone,address);
+        providerService.updateProvider(provider);
+        return provider;
     }
 }

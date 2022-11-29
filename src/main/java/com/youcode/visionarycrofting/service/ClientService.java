@@ -2,6 +2,7 @@ package com.youcode.visionarycrofting.service;
 
 
 import com.youcode.visionarycrofting.entity.Client;
+import com.youcode.visionarycrofting.entity.Command;
 import com.youcode.visionarycrofting.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,10 @@ public class ClientService {
         return  clientRepository.findAll();
     }
 
+    public Optional<Client> getOneById(Long id){
+        return clientRepository.findById(id);
+    }
+
     public void addClient(Client client)
     {
         Optional<Client> clientOptional=clientRepository.findClientByEmail(client.getEmail());
@@ -48,38 +53,33 @@ public class ClientService {
        clientRepository.deleteById(clientId);
     }
 
-    @Transactional
-    public void updateClient(Long clientId, String name, String email, String password, String phone, String address)
+
+
+
+
+    public Client updateClient(Client client)
     {
-        Client client=clientRepository.findById(clientId).
-                orElseThrow(()->new IllegalStateException("this client number:"+clientId+" does not exist"));
-
-        if (name!=null && name.length()>0 && !Objects.equals(client.getName(),name))
-        {
-            client.setName(name);
-        }
-
-        if (email!=null && email.length()>0 && !Objects.equals(client.getEmail(),email))
-        {
-            client.setEmail(email);
-        }
+        Client clientUpdated=clientRepository.findById(client.getId()).
+                orElseThrow(()->new IllegalStateException("this client number:"+client.getId()+" does not exist"));
 
 
-        if (password!=null && password.length()>0 && !Objects.equals(client.getPassword(),password))
-        {
-            client.setPassword(password);
-        }
+       if(client.getName()!=null) clientUpdated.setName(client.getName());
+       if (client.getEmail()!=null)clientUpdated.setEmail(client.getEmail());
+       if (client.getPassword()!=null)  clientUpdated.setPassword(client.getPassword());
+       if (client.getPassword()!=null) clientUpdated.setPhone(client.getPhone());
+       if (client.getAddress()!=null) clientUpdated.setAddress(client.getAddress());
+        clientRepository.save(clientUpdated);
 
-        if (phone!=null && phone.length()>0 && !Objects.equals(client.getPhone(),phone))
-        {
-            client.setPhone(phone);
-        }
+return clientUpdated;
+    }
 
 
-        if (address!=null && address.length()>0 && !Objects.equals(client.getAddress(),address))
-        {
-            client.setAddress(address);
-        }
+    public void addCommand(Command command, Long id) {
+
+        Optional<Client> clientOptional=clientRepository.findById(id);
+
+        clientOptional.get().setCommand(command);
+        clientRepository.save(clientOptional.get());
 
     }
 }
