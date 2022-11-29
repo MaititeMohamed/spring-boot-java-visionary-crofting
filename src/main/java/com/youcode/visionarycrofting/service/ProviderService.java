@@ -50,44 +50,18 @@ public class ProviderService {
 
 
     @Transactional
-    public void updateProvider(Long providerId, String firstName, String lastName, String email, String password, String phone, String address)
+    public void updateProvider(Provider provider)
     {
-        Provider provider=providerRepository.findById(providerId).
-                orElseThrow(()->new IllegalStateException("this provider number:"+providerId+" does not exist"));
+        Provider providerUpdated=providerRepository.findById(provider.getId()).
+                orElseThrow(()->new IllegalStateException("this provider number:"+provider.getId()+" does not exist"));
 
-        if (firstName!=null && firstName.length()>0 && !Objects.equals(provider.getFirstName(),firstName))
-        {
-            provider.setFirstName(firstName);
-        }
+        if (provider.getFirstName()!=null) providerUpdated.setFirstName(provider.getFirstName());
+        if (provider.getLastName()!=null) providerUpdated.setLastName(provider.getLastName());
+        if (provider.getEmail()!=null) providerUpdated.setEmail(provider.getEmail());
+        if (provider.getPassword()!=null) providerUpdated.setPassword(provider.getPassword());
+        if (provider.getPhone()!=null) providerUpdated.setPhone(provider.getPhone());
+        if (provider.getAddress()!=null) providerUpdated.setAddress(provider.getAddress());
 
-
-
-        if (lastName!=null && lastName.length()>0 && !Objects.equals(provider.getLastName(),lastName))
-        {
-            provider.setLastName(lastName);
-        }
-
-        if (email!=null && email.length()>0 && !Objects.equals(provider.getEmail(),email))
-        {
-            provider.setEmail(email);
-        }
-
-
-        if (password!=null && password.length()>0 && !Objects.equals(provider.getPassword(),password))
-        {
-            provider.setPassword(password);
-        }
-
-        if (phone!=null && phone.length()>0 && !Objects.equals(provider.getPhone(),phone))
-        {
-            provider.setPhone(phone);
-        }
-
-
-        if (address!=null && address.length()>0 && !Objects.equals(provider.getAddress(),address))
-        {
-            provider.setAddress(address);
-        }
 
     }
 }

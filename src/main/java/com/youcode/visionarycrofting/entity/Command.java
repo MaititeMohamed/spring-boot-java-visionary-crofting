@@ -19,23 +19,33 @@ public class Command {
  private Date  dateTime;
  private int totalPrice ;
  private String address;
- //private List<Object> listItem;
 
- public Command(Long id, String ref, Date dateTime, int totalPrice, String address, List<Object> listItem) {
+ @ManyToOne
+ private Client client;
+
+ public Client getClient() {
+  return client;
+ }
+
+ public void setClient(Client client) {
+  this.client = client;
+ }
+
+ public Command(Long id, String ref, Date dateTime, int totalPrice, String address, Client client) {
   this.id = id;
   this.ref = ref;
   this.dateTime = dateTime;
   this.totalPrice = totalPrice;
   this.address = address;
-  //this.listItem = listItem;
+  this.client = client;
  }
 
- public Command(String ref, Date dateTime, int totalPrice, String address, List<Object> listItem) {
+ public Command(String ref, Date dateTime, int totalPrice, String address, Client client) {
   this.ref = ref;
   this.dateTime = dateTime;
   this.totalPrice = totalPrice;
   this.address = address;
- // this.listItem = listItem;
+  this.client = client;
  }
 
  public Command() {
@@ -98,7 +108,7 @@ public class Command {
           ", dateTime=" + dateTime +
           ", totalPrice=" + totalPrice +
           ", address='" + address + '\'' +
-          //", listItem=" + listItem +
+          ", client=" + client +
           '}';
  }
 }

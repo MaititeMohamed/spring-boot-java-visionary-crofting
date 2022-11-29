@@ -16,18 +16,27 @@ public class Client implements Serializable {
     private String phone;
     private String address;
 
+    @OneToMany (mappedBy = "client")
+    private List<Command> commandList;
 
 
-
-    public Client(String name, String email, String password, String phone, String address ){
+    public Client(Long id, String name, String email, String password, String phone, String address, List<Command> commandList) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.phone = phone;
         this.address = address;
-
+        this.commandList = commandList;
     }
 
+    public List<Command> getCommandList() {
+        return commandList;
+    }
+
+    public void setCommandList(List<Command> commandList) {
+        this.commandList = commandList;
+    }
 
     public Client() {
     }
