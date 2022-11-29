@@ -3,6 +3,7 @@ package com.youcode.visionarycrofting.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -15,12 +16,12 @@ public class Stock {
     private String password;
     private String phone;
     private String address;
-//
-
     @ManyToMany
-    private List<TestProduct> productList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
+    @OneToMany(mappedBy = "stock")
+    private List<Invoice> invoiceList = new ArrayList<>();
 
-    public Stock(Long id, String name, String email, String password, String phone, String address, List<TestProduct> productList, List<TestProduct> providerList) {
+    public Stock(Long id, String name, String email, String password, String phone, String address) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -43,10 +44,10 @@ public class Stock {
 //        this.phone = phone;
 //        this.address = address;
 //    }
+
     public Stock(){}
 
-    public Stock(Long id, String name, String email, String password, String phone, String address) {
-    }
+
 
     public Long getId() {
         return id;
@@ -96,6 +97,21 @@ public class Stock {
         this.address = address;
     }
 
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
+
+    public List<Invoice> getInvoiceList() {
+        return invoiceList;
+    }
+
+    public void setInvoiceList(List<Invoice> invoiceList) {
+        this.invoiceList = invoiceList;
+    }
 
     @Override
     public String toString() {
@@ -106,6 +122,8 @@ public class Stock {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
+                ", productList=" + productList +
+                ", invoiceList=" + invoiceList +
                 '}';
     }
 }

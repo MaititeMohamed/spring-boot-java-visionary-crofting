@@ -18,9 +18,30 @@ public class StockService {
     }
 
     public Stock insertStock(Stock stock) {
-        return stockRepository.save(stock);
+        if(stock.equals(null)){
+            throw new IllegalStateException("stock does not be null");
+        } else if (stock.getName().isEmpty()) {
+            throw new IllegalStateException("name does not be empty");
+        }
+        else if (stock.getEmail().isEmpty()) {
+            throw new IllegalStateException("email does not be empty");
+        }
+        else if (stock.getAddress().isEmpty()) {
+            throw new IllegalStateException("address does not be empty");
+        }
+        else if (stock.getPassword().isEmpty()) {
+            throw new IllegalStateException("password does not be empty");
+        }
+        else if (stock.getPhone().isEmpty()) {
+            throw new IllegalStateException("phone does not be empty");
+        }
+        try {
+            return stockRepository.save(stock);
+        }
+        catch (Exception e){
+            return null;
+        }
     }
-
     public void deleteStockById(Long id) {
         boolean exist = stockRepository.existsById(id);
         if(!exist){
@@ -28,7 +49,6 @@ public class StockService {
         }
         stockRepository.deleteById(id);
     }
-
 
     public Optional<Stock> findById(Long id){
         return stockRepository.findById(id);
