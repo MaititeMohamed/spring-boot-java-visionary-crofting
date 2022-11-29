@@ -4,6 +4,7 @@ package com.youcode.visionarycrofting.entity;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,9 +21,9 @@ public class Command {
  private int totalPrice ;
  private String address;
  @OneToMany(mappedBy = "command")
-private List<ItemCommand> listItem;
+private List<CommandItem> listItem = new ArrayList <> (  );
 
- public Command(Long id, String ref, String dateTime, int totalPrice, String address, List<ItemCommand> listItem) {
+ public Command(Long id, String ref, String dateTime, int totalPrice, String address, List<CommandItem> listItem) {
   this.id = id;
   this.ref = ref;
   this.dateTime = dateTime;
@@ -31,7 +32,7 @@ private List<ItemCommand> listItem;
   this.listItem = listItem;
  }
 
- public Command(String ref, String dateTime, int totalPrice, String address, List<ItemCommand> listItem) {
+ public Command(String ref, String dateTime, int totalPrice, String address, List<CommandItem> listItem) {
   this.ref = ref;
   this.dateTime = dateTime;
   this.totalPrice = totalPrice;
@@ -39,11 +40,11 @@ private List<ItemCommand> listItem;
   this.listItem = listItem;
  }
 
- public List<ItemCommand> getListItem() {
+ public List<CommandItem> getListItem() {
   return listItem;
  }
 
- public void setListItem(List<ItemCommand> listItem) {
+ public void setListItem(List<CommandItem> listItem) {
   this.listItem = listItem;
  }
 
