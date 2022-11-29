@@ -26,14 +26,36 @@ public class ProductService {
     }
 
     public Product updateProduct ( Product product ) {
-        Optional<Product> p = productRepository.findById ( product.getId () );
+        Optional<Product> productOptional = productRepository.findById ( product.getId () );
 
-        if ( !product.getName ().isEmpty ())
-            p.get ().setName ( "Foo" );
+        if (!product.getName ().isEmpty () && product.getName () != null) productOptional.get ().setName ( product.getName ());
+        if (!product.getDescription ().isEmpty () && product.getDescription () != null) productOptional.get ().setDescription ( product.getDescription ());
+        if (!product.getCategory ().isEmpty () && product.getCategory () != null) productOptional.get ().setCategory ( product.getCategory ());
+        if (product.getQuantity () >= 0 && product.getQuantity () != null && productOptional.get ().getQuantity () != null) productOptional.get ().setQuantity ( productOptional.get().getQuantity () + product.getQuantity ());
+        if (productOptional.get().getQuantity () == null  && product.getQuantity () != null && product.getQuantity () >= 0) productOptional.get ().setQuantity ( product.getQuantity ());
+        if (product.getMinQuantity () >= 0  && product.getName () != null) productOptional.get ().setMinQuantity ( product.getMinQuantity ());
 
-        productRepository.save ( p.get() );
-        return p.get ();
+        productRepository.save ( productOptional.get() );
+        return productOptional.get ();
     }
+
+    public Integer deleteProduct ( Long id ) {
+        Boolean exists = productRepository.existsById(id);
+        if(!exists)
+        {
+            return -1;
+            //throw new IllegalStateException("this Product number:"+ id +" does not exist");
+        } else {
+            try {
+                productRepository.deleteById(id);
+                return 1;
+            } catch (Exception e){
+                return 0;
+            }
+        }
+    }
+
+
     /*
     public Product updateProduct ( Product product ) {
         Optional<Product> productOptional = productRepository.findById ( product.getId () );

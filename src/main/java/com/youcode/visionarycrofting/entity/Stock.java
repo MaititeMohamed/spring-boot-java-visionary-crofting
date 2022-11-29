@@ -1,6 +1,8 @@
 package com.youcode.visionarycrofting.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +19,10 @@ public class Stock {
     private String address;
 //
 
+    //@ManyToMany
+    //private List<TestProduct> productList = new ArrayList<>();
     @ManyToMany
-    private List<TestProduct> productList = new ArrayList<>();
+    private List<Product> productList = new ArrayList <> (  );
 
     public Stock(Long id, String name, String email, String password, String phone, String address, List<TestProduct> productList, List<TestProduct> providerList) {
         this.id = id;
