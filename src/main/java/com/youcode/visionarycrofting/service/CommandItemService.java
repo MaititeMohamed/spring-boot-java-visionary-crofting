@@ -1,10 +1,10 @@
 package com.youcode.visionarycrofting.service;
 
-import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.entity.Command;
 import com.youcode.visionarycrofting.entity.CommandItem;
 import com.youcode.visionarycrofting.entity.Product;
 import com.youcode.visionarycrofting.repository.CommandItemRepository;
+import com.youcode.visionarycrofting.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,13 @@ import java.util.Optional;
 @Service
 public class CommandItemService {
     private final CommandItemRepository commandItemRepository;
+    private final ProductRepository productRepository;
     private final ProductService productService;
 
     @Autowired
-    public CommandItemService ( CommandItemRepository commandItemRepository , ProductService productService ) {
+    public CommandItemService ( CommandItemRepository commandItemRepository , ProductRepository productRepository , ProductService productService ) {
         this.commandItemRepository = commandItemRepository;
+        this.productRepository = productRepository;
         this.productService = productService;
     }
 
@@ -38,6 +40,8 @@ public class CommandItemService {
             CommandItem commandItem = new CommandItem ( itemReference , (quantity * product.getUnitaryPrice ()), quantity, product);
             commandItem.setCommand ( command );
             commandItemRepository.save ( commandItem );
+            product.setQuantity ( product.getQuantity () - quantity );
+            productRepository.save(product);
             return commandItem;
         }
         return null;

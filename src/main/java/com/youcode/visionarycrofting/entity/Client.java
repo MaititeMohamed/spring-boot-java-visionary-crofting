@@ -44,6 +44,10 @@ public class Client implements Serializable {
 
     }
 
+    public Client ( Long id ) {
+        this.id = id;
+    }
+
     public List<Command> getCommandList() {
         return commandList;
     }
