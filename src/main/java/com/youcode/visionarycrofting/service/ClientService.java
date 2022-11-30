@@ -77,10 +77,10 @@ return clientUpdated;
 
 
     public Client addCommand(Command command, Long id) {
-
         Optional<Client> clientOptional=clientRepository.findById(id);
 
         clientOptional.get().setCommand(command);
+        System.out.println (clientOptional.get ().toString () );
         clientRepository.save(clientOptional.get());
         return clientOptional.get();
     }

@@ -33,7 +33,6 @@ private final ClientService clientService;
     }
 
     @PostMapping("/addClient")
-
     public void registerNewClient(@RequestBody Client client)
     {
         clientService.addClient(client);
