@@ -74,12 +74,5 @@ return clientUpdated;
     }
 
 
-    public void addCommand(Command command, Long id) {
 
-        Optional<Client> clientOptional=clientRepository.findById(id);
-
-        clientOptional.get().setCommand(command);
-        clientRepository.save(clientOptional.get());
-
-    }
 }

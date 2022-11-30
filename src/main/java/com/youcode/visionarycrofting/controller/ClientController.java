@@ -54,17 +54,6 @@ private final ClientService clientService;
     }
 
 
-    @PostMapping("/passer_commande/{id}")
-    @ResponseBody
-    public Client passerCommande(@PathVariable Long id,@RequestBody Collection<PasserCommande> productList)
-    {
 
-        
-        Command command= commandService.createCommand(productList);
-       clientService.addCommand(command, id);
-
-        System.out.println(productList.toString());
-        return new Client();
-    }
 
 }
