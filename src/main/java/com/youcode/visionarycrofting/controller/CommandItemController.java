@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/product")
+@RequestMapping("api/v1/commanditem")
 public class CommandItemController {
 
 
@@ -28,4 +28,9 @@ public class CommandItemController {
         return commandItemService.getCommandItemList();
     }
 
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public Integer deleteCommandItem(@RequestBody CommandItem commandItem) {
+        return commandItemService.deleteCommandItem( commandItem.getId ( ) );
+    }
 }

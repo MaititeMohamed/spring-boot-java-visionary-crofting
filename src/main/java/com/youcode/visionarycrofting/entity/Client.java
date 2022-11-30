@@ -32,6 +32,16 @@ public class Client implements Serializable {
 
     }
 
+    public Client(String name, String email, String password, String phone, String address) {
+
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
+
+    }
+
     public List<Command> getCommandList() {
         return commandList;
     }
