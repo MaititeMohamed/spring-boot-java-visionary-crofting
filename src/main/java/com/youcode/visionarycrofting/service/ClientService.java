@@ -94,7 +94,9 @@ return clientUpdated;
     }
 
     public Client passerCommande(Long id, Collection<PasserCommande> productList) {
-        Command command = commandService.createCommand(productList);
+        Optional<Client> client=clientRepository.findById(id);
+        Command command = commandService.createCommand(productList,client);
+
         return addCommand(command, id);
     }
 
