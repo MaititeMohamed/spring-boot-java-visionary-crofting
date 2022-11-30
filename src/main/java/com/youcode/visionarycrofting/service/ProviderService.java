@@ -27,6 +27,10 @@ public class ProviderService {
     public void addProvider(Provider provider)
     {
         Optional<Provider> clientOptional=providerRepository.findProviderByEmail(provider.getEmail());
+        if (provider.getAddress()==null || provider.getEmail()==null || provider.getPassword()==null ||  provider.getFirstName()==null || provider.getPhone()==null ||  provider.getLastName()==null )
+        {
+            throw new IllegalStateException("merci de remplir tous les informations du fournisseur  ");
+        }
 
         if (clientOptional.isPresent())
         {

@@ -37,10 +37,17 @@ public class ClientService {
     {
         Optional<Client> clientOptional=clientRepository.findClientByEmail(client.getEmail());
 
+
+
+        if (client.getAddress()==null || client.getEmail()==null || client.getPassword()==null ||  client.getName()==null || client.getPhone()==null)
+        {
+           throw new IllegalStateException("merci de remplir tous les informations du client  ");
+        }
         if (clientOptional.isPresent())
         {
             throw new IllegalStateException("email déja exist");
         }
+
 
         clientRepository.save(client);
     }
@@ -76,6 +83,7 @@ return clientUpdated;
     }
 
 
+
     public Client addCommand(Command command, Long id) {
         Optional<Client> clientOptional=clientRepository.findById(id);
 
@@ -89,4 +97,5 @@ return clientUpdated;
         Command command = commandService.createCommand(productList);
         return addCommand(command, id);
     }
+
 }
