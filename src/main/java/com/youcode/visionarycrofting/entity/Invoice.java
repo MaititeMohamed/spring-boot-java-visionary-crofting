@@ -20,8 +20,7 @@ public class Invoice {
 
     public Invoice() {}
 
-    public Invoice(String refproduct1234, String ref12234, Provider provider, Stock stock, int quantity) {
-    }
+
 
     public Provider getProvider() {
         return provider;

@@ -1,6 +1,8 @@
 package com.youcode.visionarycrofting.controller;
 
 import com.google.gson.Gson;
+import com.youcode.visionarycrofting.classes.AppelDoffre;
+import com.youcode.visionarycrofting.entity.Invoice;
 import com.youcode.visionarycrofting.entity.Stock;
 import com.youcode.visionarycrofting.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ public class StockController {
     @Autowired
     StockService stockService;
     @GetMapping
+    @ResponseBody
     public List<Stock> findAll(){
         return stockService.findAll();
     }
@@ -23,6 +26,7 @@ public class StockController {
     //    @RequestMapping(value = "/add",method = RequestMethod.POST,consumes =MediaType.APPLICATION_JSON_VALUE ,
 //            headers = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(path = "/insert")
+    @ResponseBody
     public Stock insertStock(@RequestBody Stock stock){
 
 //        Stock stockObj = new Gson().fromJson(String.valueOf(stock), Stock.class);
@@ -31,14 +35,23 @@ public class StockController {
     }
 
     @DeleteMapping(path = "/delete/{stockid}")
+    @ResponseBody
     public void deleteStockById(@PathVariable("stockid") Long id){
         stockService.deleteStockById(id);
     }
 
     @PutMapping(path = "/update/{stockid}")
-    public void updateStock(
+    @ResponseBody
+    public Stock updateStock(
             @PathVariable("stockid") Long id , @RequestBody Stock stock){
-        stockService.updateStock(id , stock);
+       return stockService.updateStock(id , stock);
+    }
+
+    @PostMapping(path = "/addInvoice")
+    @ResponseBody
+    public Invoice addInvoice(@RequestBody AppelDoffre appelDoffre){
+        return  stockService.addAppelDoffre(appelDoffre);
+
     }
 
 }

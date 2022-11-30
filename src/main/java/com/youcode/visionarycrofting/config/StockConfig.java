@@ -17,7 +17,7 @@ public class StockConfig {
 
 
     @Bean
-    CommandLineRunner commandLineRunner (StockRepository stockRepository , InvoiceRepository invoiceRepository){
+    CommandLineRunner commandLineRunner (StockRepository stockRepository ){
         return args -> {
 
 //            public Stock(String name, String email, String password, String phone, String address, List<Object> productList, List<Object> providerList) {
