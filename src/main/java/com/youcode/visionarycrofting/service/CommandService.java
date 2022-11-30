@@ -1,15 +1,14 @@
 package com.youcode.visionarycrofting.service;
 
 import com.youcode.visionarycrofting.classes.PasserCommande;
+import com.youcode.visionarycrofting.entity.Client;
 import com.youcode.visionarycrofting.entity.Command;
-import com.youcode.visionarycrofting.entity.CommandItem;
+import com.youcode.visionarycrofting.repository.ClientRepository;
 import com.youcode.visionarycrofting.repository.CommandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -20,11 +19,14 @@ public class CommandService {
 
     private  final CommandRepository commandRepository;
     private final CommandItemService commandItemService;
+    private final ClientRepository clientRepository;
 
     @Autowired
-    public CommandService(CommandRepository commandRepository, CommandItemService commandItemService) {
+    public CommandService(CommandRepository commandRepository, CommandItemService commandItemService, ClientRepository clientRepository) {
         this.commandRepository = commandRepository;
         this.commandItemService = commandItemService;
+
+        this.clientRepository = clientRepository;
     }
 
     public  void addNewCommand(Command command){
@@ -99,8 +101,10 @@ public class CommandService {
     }
 
 
-    public Command createCommand(Collection<PasserCommande> productList) {
+    public Command createCommand(Collection<PasserCommande> productList , Optional<Client> client) {
         Command command = new Command();
+
+        command.setAddress(client.get().getAddress());
         productList.stream().forEach((product) -> {
             command.setItem(commandItemService.createCommandItem(product.getRef(), product.getQuantity()));
         });

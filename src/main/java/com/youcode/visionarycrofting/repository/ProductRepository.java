@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository< Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.productReference = ?1")
     Product getProductByProductReference ( String reference );
+
+
 }
