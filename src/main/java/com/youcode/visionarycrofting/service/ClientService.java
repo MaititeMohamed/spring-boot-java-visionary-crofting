@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @Service
 public class ClientService {
-
     private final ClientRepository clientRepository;
     private final CommandService commandService;
 
@@ -86,16 +85,14 @@ return clientUpdated;
 
     public Client addCommand(Command command, Long id) {
         Optional<Client> clientOptional=clientRepository.findById(id);
-
         clientOptional.get().setCommand(command);
-        System.out.println (clientOptional.get ().toString () );
         clientRepository.save(clientOptional.get());
         return clientOptional.get();
     }
 
     public Client passerCommande(Long id, Collection<PasserCommande> productList) {
         Optional<Client> client=clientRepository.findById(id);
-        Command command = commandService.createCommand(productList,client);
+        Command command = commandService.createCommand(productList, client.get ());
 
         return addCommand(command, id);
     }

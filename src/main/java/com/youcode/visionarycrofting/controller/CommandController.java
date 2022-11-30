@@ -23,10 +23,10 @@ public class CommandController {
         this.commandService = commandService;
     }
 
-    @PostMapping
-    public  Command  addNewCommand(@RequestBody Command command){
-        commandService.addNewCommand(command);
-        return command;
+    @PostMapping("/addcommand/{id}")
+    public  Command  addNewCommand(@RequestBody Command command, @PathVariable Long id){
+        return commandService.addNewCommand(command);
+
     }
     @GetMapping
     public List<Command> getAllCommand(){

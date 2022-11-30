@@ -12,9 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-
-public class InvoiceConfig {
+public class InvoiceConfig{
 
 //    ProviderRepository providerRepository;
 //    StockRepository stockRepository;

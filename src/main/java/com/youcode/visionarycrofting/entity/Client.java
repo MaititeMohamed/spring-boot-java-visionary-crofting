@@ -1,5 +1,7 @@
 package com.youcode.visionarycrofting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -40,6 +42,10 @@ public class Client implements Serializable {
         this.phone = phone;
         this.address = address;
 
+    }
+
+    public Client ( Long id ) {
+        this.id = id;
     }
 
     public List<Command> getCommandList() {

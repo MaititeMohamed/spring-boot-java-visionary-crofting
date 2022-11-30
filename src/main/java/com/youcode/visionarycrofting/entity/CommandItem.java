@@ -1,5 +1,7 @@
 package com.youcode.visionarycrofting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ public class CommandItem {
     private Integer quantity;
 
     @ManyToOne
+    @JsonIgnore
     private Command command;
     @ManyToOne
     private Product product;
