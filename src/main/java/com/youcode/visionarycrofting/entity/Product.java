@@ -4,18 +4,17 @@ package com.youcode.visionarycrofting.entity;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "Product.existsBy", query = "select (count(p) > 0) from Product p") })
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String productReference;
-    @Column(unique = true)
     private String name;
     private Double unitaryPrice;
     private String description;
@@ -119,17 +118,19 @@ public class Product {
         this.minQuantity = minQuantity;
     }
 
-    //private List <Object> invoiceList;
-    //private List<Object> itemList;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "product_stock",
+            joinColumns = { @JoinColumn(name = "stock_id") },
+            inverseJoinColumns = { @JoinColumn(name = "product_id") })
+    private List<Stock> stockList = new ArrayList <> (  );
 
-    @Override
-    public boolean equals ( Object o ) {
-        if ( this == o ) return true;
-        if ( o == null || Hibernate.getClass ( this ) != Hibernate.getClass ( o ) )
-            return false;
-        Product product = (Product) o;
-        return id != null && Objects.equals ( id , product.id );
-    }
+    @OneToMany(mappedBy = "product")
+    private List<CommandItem> commandItemList = new ArrayList <> (  );
+
 
     @Override
     public String toString ( ) {

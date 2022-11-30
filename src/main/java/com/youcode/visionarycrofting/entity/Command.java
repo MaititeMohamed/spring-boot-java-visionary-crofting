@@ -4,8 +4,8 @@ package com.youcode.visionarycrofting.entity;
 
 
 import javax.persistence.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -20,22 +20,32 @@ public class Command {
  private String dateTime;
  private int totalPrice ;
  private String address;
- //private List<Object> listItem;
+ @OneToMany(mappedBy = "command")
+private List<CommandItem> listItem = new ArrayList <> (  );
 
-
- public Command(Long id, String ref, String dateTime, int totalPrice, String address) {
+ public Command(Long id, String ref, String dateTime, int totalPrice, String address, List<CommandItem> listItem) {
   this.id = id;
   this.ref = ref;
   this.dateTime = dateTime;
   this.totalPrice = totalPrice;
   this.address = address;
+  this.listItem = listItem;
  }
 
- public Command(String ref, String dateTime, int totalPrice, String address) {
+ public Command(String ref, String dateTime, int totalPrice, String address, List<CommandItem> listItem) {
   this.ref = ref;
   this.dateTime = dateTime;
   this.totalPrice = totalPrice;
   this.address = address;
+  this.listItem = listItem;
+ }
+
+ public List<CommandItem> getListItem() {
+  return listItem;
+ }
+
+ public void setListItem(List<CommandItem> listItem) {
+  this.listItem = listItem;
  }
 
  public Command() {
@@ -80,5 +90,17 @@ public class Command {
 
  public void setAddress(String address) {
   this.address = address;
+ }
+
+ @Override
+ public String toString() {
+  return "Command{" +
+          "id=" + id +
+          ", ref='" + ref + '\'' +
+          ", dateTime='" + dateTime + '\'' +
+          ", totalPrice=" + totalPrice +
+          ", address='" + address + '\'' +
+          ", listItem=" + listItem +
+          '}';
  }
 }

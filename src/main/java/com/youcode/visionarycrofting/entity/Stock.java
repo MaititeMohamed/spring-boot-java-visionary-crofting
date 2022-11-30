@@ -1,9 +1,6 @@
 package com.youcode.visionarycrofting.entity;
-
-
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -20,6 +17,7 @@ public class Stock {
     private List<Product> productList = new ArrayList<>();
     @OneToMany(mappedBy = "stock")
     private List<Invoice> invoiceList = new ArrayList<>();
+
 
     public Stock(Long id, String name, String email, String password, String phone, String address) {
         this.id = id;
@@ -46,17 +44,12 @@ public class Stock {
 //    }
 
     public Stock(){}
-
-
-
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
