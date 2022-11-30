@@ -14,7 +14,7 @@ import java.util.List;
 public class ProductConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner1 ( ProductRepository productRepository){
+    CommandLineRunner commandLineRunner3 ( ProductRepository productRepository){
         return args -> {
             Product product1 = new Product ( "r1", "p1", 12.40, "d1", "cat1", 40, 15 );
             Product product2 = new Product ( "r2", "p2", 16.00, "d2", "cat2", 40, 10 );

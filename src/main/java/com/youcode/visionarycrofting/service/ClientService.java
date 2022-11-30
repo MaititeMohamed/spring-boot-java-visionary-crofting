@@ -78,15 +78,15 @@ return clientUpdated;
 
     public Client addCommand(Command command, Long id) {
         Optional<Client> clientOptional=clientRepository.findById(id);
-
         clientOptional.get().setCommand(command);
+
         System.out.println (clientOptional.get ().toString () );
         clientRepository.save(clientOptional.get());
         return clientOptional.get();
     }
 
-    public Client passerCommande(Long id, Collection<PasserCommande> productList) {
-        Command command = commandService.createCommand(productList);
+     public Client passerCommande(Long id, Collection<PasserCommande> productList) {
+        Command command = commandService.createCommand(productList,id);
         return addCommand(command, id);
     }
 }

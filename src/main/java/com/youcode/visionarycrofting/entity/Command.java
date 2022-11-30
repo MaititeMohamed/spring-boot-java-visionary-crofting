@@ -14,15 +14,15 @@ public class Command {
  private  String ref;
 
  private String dateTime;
- private int totalPrice ;
+ private double totalPrice ;
  private String address;
 
  @ManyToOne
  private Client client;
- @OneToMany(mappedBy = "command")
+ @OneToMany(mappedBy = "command",fetch = FetchType.EAGER)
  private List<CommandItem> listItem = new ArrayList <> (  );
 
- public Command(Long id, String ref, String dateTime, int totalPrice, String address, List<CommandItem> listItem) {
+ public Command(Long id, String ref, String dateTime, double totalPrice, String address, List<CommandItem> listItem) {
   this.id = id;
   this.ref = ref;
   this.dateTime = dateTime;
@@ -31,7 +31,7 @@ public class Command {
   this.listItem = listItem;
  }
 
- public Command(String ref, String dateTime, int totalPrice, String address, List<CommandItem> listItem) {
+ public Command(String ref, String dateTime, double totalPrice, String address, List<CommandItem> listItem) {
   this.ref = ref;
   this.dateTime = dateTime;
   this.totalPrice = totalPrice;
@@ -75,11 +75,11 @@ public class Command {
   this.dateTime = dateTime;
  }
 
- public int getTotalPrice() {
+ public double getTotalPrice() {
   return totalPrice;
  }
 
- public void setTotalPrice(int totalPrice) {
+ public void setTotalPrice(double totalPrice) {
   this.totalPrice = totalPrice;
  }
 

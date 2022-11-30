@@ -1,19 +1,19 @@
 package com.youcode.visionarycrofting.service;
 
 import com.youcode.visionarycrofting.classes.PasserCommande;
+import com.youcode.visionarycrofting.entity.Client;
 import com.youcode.visionarycrofting.entity.Command;
 import com.youcode.visionarycrofting.entity.CommandItem;
+import com.youcode.visionarycrofting.repository.ClientRepository;
+import com.youcode.visionarycrofting.repository.CommandItemRepository;
 import com.youcode.visionarycrofting.repository.CommandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+
 @Service
 public class CommandService {
 
@@ -21,10 +21,16 @@ public class CommandService {
     private  final CommandRepository commandRepository;
     private final CommandItemService commandItemService;
 
+
+    private  final  CommandItemRepository commandItemRepository;
+
+    private final ClientRepository clientRepository;
     @Autowired
-    public CommandService(CommandRepository commandRepository, CommandItemService commandItemService) {
+    public CommandService(CommandRepository commandRepository, CommandItemService commandItemService, CommandItemRepository commandItemRepository, ClientRepository clientRepository) {
         this.commandRepository = commandRepository;
         this.commandItemService = commandItemService;
+        this.commandItemRepository = commandItemRepository;
+        this.clientRepository = clientRepository;
     }
 
     public  void addNewCommand(Command command){
@@ -99,12 +105,34 @@ public class CommandService {
     }
 
 
-    public Command createCommand(Collection<PasserCommande> productList) {
-        Command command = new Command();
-        productList.stream().forEach((product) -> {
-            command.setItem(commandItemService.createCommandItem(product.getRef(), product.getQuantity()));
-        });
-        commandRepository.save ( command );
-        return command;
-    }
+public Command createCommand(Collection<PasserCommande> productList ,Long id) {
+    Command command = new Command();
+    Random rand = new Random();
+    int n = rand.nextInt(1000);
+    Optional<Client> client= clientRepository.findById(id);
+
+    command.setAddress(client.get().getAddress());
+    String commandRef="Ref"+client.get().getName()+"-"+n;
+    command.setRef(commandRef);
+    command.setDateTime(LocalDate.now().toString());
+
+
+    productList.stream().forEach((product) -> {
+        command.setItem(commandItemService.createCommandItem(product.getRef(), product.getQuantity()));
+
+    });
+
+
+
+    command.setTotalPrice(0.0);
+    System.out.println(command.toString());
+    command.getListItem().stream().forEach((item) -> {
+        command.setTotalPrice( 3);
+        System.out.println(item.getPrice());
+    });
+
+
+    commandRepository.save (command);
+    return command;
+}
 }
