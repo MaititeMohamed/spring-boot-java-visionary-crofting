@@ -1,6 +1,7 @@
 package com.youcode.visionarycrofting.service;
 
 import com.youcode.visionarycrofting.classes.Message;
+import com.youcode.visionarycrofting.entity.Command;
 import com.youcode.visionarycrofting.entity.CommandItem;
 import com.youcode.visionarycrofting.entity.Product;
 import com.youcode.visionarycrofting.repository.CommandItemRepository;
@@ -26,7 +27,7 @@ public class CommandItemService {
         return  commandItemRepository.findAll ();
     }
 
-    public CommandItem createCommandItem ( String ref , Integer quantity ) {
+    public CommandItem createCommandItem ( String ref , Integer quantity, Command command ) {
         Product product = productService.getProductByReference ( ref );
 
         if (product.getQuantity () > 0 &&
@@ -35,6 +36,7 @@ public class CommandItemService {
         {
             String itemReference = product.getName () + "-" + product.getProductReference () + "_" + LocalDate.now ().getYear ();
             CommandItem commandItem = new CommandItem ( itemReference , (quantity * product.getUnitaryPrice ()), quantity, product);
+            commandItem.setCommand ( command );
             commandItemRepository.save ( commandItem );
             return commandItem;
         }

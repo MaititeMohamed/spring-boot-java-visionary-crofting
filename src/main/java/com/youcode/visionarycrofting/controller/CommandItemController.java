@@ -31,6 +31,9 @@ public class CommandItemController {
     @DeleteMapping("/delete")
     @ResponseBody
     public Integer deleteCommandItem(@RequestBody CommandItem commandItem) {
-        return commandItemService.deleteCommandItem( commandItem.getId ( ) );
+        if(commandItem.getId () != null)
+            return commandItemService.deleteCommandItem( commandItem.getId ( ) );
+
+        else return null;
     }
 }
