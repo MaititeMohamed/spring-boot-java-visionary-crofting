@@ -17,7 +17,7 @@ public class Client implements Serializable {
     private String address;
 
 
-    @OneToMany (mappedBy = "client")
+    @OneToMany (mappedBy = "client", fetch = FetchType.EAGER)
     private List<Command> commandList;
 
 
@@ -96,7 +96,7 @@ public class Client implements Serializable {
 
 
     @Override
-    public String toString() {
+    public String toString ( ) {
         return "Client{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
@@ -104,9 +104,7 @@ public class Client implements Serializable {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-
+                ", commandList=" + commandList +
                 '}';
     }
-
-
 }

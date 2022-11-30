@@ -37,6 +37,16 @@ public class CommandItem {
         this.product = product;
     }
 
+    public CommandItem ( String itemReference ,
+                         double price ,
+                         Integer quantity ,
+                         Product product ) {
+        this.ref = itemReference;
+        this.price = price;
+        this.quantity = quantity;
+        this.product = product;
+    }
+
     public Long getId ( ) {
         return id;
     }

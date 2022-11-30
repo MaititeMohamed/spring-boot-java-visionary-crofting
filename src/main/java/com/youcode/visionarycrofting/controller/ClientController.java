@@ -33,7 +33,6 @@ private final ClientService clientService;
     }
 
     @PostMapping("/addClient")
-
     public void registerNewClient(@RequestBody Client client)
     {
         clientService.addClient(client);
@@ -54,6 +53,11 @@ private final ClientService clientService;
     }
 
 
-
+    @PostMapping("/passer_commande/{id}")
+    @ResponseBody
+    public Client passerCommande(@PathVariable Long id,@RequestBody Collection<PasserCommande> productList)
+    {
+        return clientService.passerCommande(id, productList);
+    }
 
 }
