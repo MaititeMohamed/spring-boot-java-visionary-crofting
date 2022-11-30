@@ -105,29 +105,27 @@ public class CommandService {
     }
 
 
-public Command createCommand(Collection<PasserCommande> productList ,Long id) {
+public Command createCommand(Collection<PasserCommande> productList ,Client client) {
     Command command = new Command();
     Random rand = new Random();
     int n = rand.nextInt(1000);
-    Optional<Client> client= clientRepository.findById(id);
 
-    command.setAddress(client.get().getAddress());
-    String commandRef="Ref"+client.get().getName()+"-"+n;
+    command.setAddress(client.getAddress());
+    String commandRef="Ref"+client.getName()+"-"+n;
     command.setRef(commandRef);
     command.setDateTime(LocalDate.now().toString());
-
-
+    command.setClient ( client );
+    // fr
+    addNewCommand ( command );
     productList.stream().forEach((product) -> {
-        command.setItem(commandItemService.createCommandItem(product.getRef(), product.getQuantity()));
+        command.setItem(commandItemService.createCommandItem(product.getRef(), product.getQuantity(), command));
 
     });
 
-
-
     command.setTotalPrice(0.0);
-    System.out.println(command.toString());
+    //System.out.println(command.toString());
     command.getListItem().stream().forEach((item) -> {
-        command.setTotalPrice( 3);
+        command.setTotalPrice( command.getTotalPrice () + item.getPrice ());
         System.out.println(item.getPrice());
     });
 
