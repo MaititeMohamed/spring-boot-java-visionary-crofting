@@ -48,9 +48,12 @@ public class CommandController {
        commandService.updateCommand(id,ref,dateTime,address,totalPrice);
 
    }
+
     @PutMapping(path = "/update")
     public Command updateCommand(@RequestBody  Command command){
         commandService.updateCommand(command);
         return command;
     }
+
+
 }

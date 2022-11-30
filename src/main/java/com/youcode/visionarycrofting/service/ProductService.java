@@ -56,6 +56,8 @@ public class ProductService {
     }
 
 
+
+
     /*
     public Product updateProduct ( Product product ) {
         Optional<Product> productOptional = productRepository.findById ( product.getId () );
@@ -89,4 +91,10 @@ public class ProductService {
         return product;
     }
     */
+
+    public Product getProductByReference(String reference){
+        Product product =  productRepository.getProductByProductReference(reference);
+        return product;
+    }
+
 }

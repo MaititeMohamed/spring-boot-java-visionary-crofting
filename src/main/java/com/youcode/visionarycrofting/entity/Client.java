@@ -16,7 +16,14 @@ public class Client implements Serializable {
     private String phone;
     private String address;
 
-    public Client(String name, String email, String password, String phone, String address ){
+
+    @OneToMany (mappedBy = "client", fetch = FetchType.EAGER)
+    private List<Command> commandList;
+
+
+    public Client(Long id, String name, String email, String password, String phone, String address) {
+        this.id = id;
+
         this.name = name;
         this.email = email;
         this.password = password;
@@ -25,7 +32,17 @@ public class Client implements Serializable {
 
     }
 
+    public List<Command> getCommandList() {
+        return commandList;
+    }
 
+    public void setCommandList(List<Command> commandList) {
+        this.commandList = commandList;
+    }
+
+    public void setCommand(Command command) {
+        this.commandList.add(command) ;
+    }
     public Client() {
     }
 
@@ -79,7 +96,7 @@ public class Client implements Serializable {
 
 
     @Override
-    public String toString() {
+    public String toString ( ) {
         return "Client{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
@@ -87,9 +104,7 @@ public class Client implements Serializable {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-
+                ", commandList=" + commandList +
                 '}';
     }
-
-
 }

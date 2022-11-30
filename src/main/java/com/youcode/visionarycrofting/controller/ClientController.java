@@ -1,11 +1,16 @@
 package com.youcode.visionarycrofting.controller;
 
 
+import com.youcode.visionarycrofting.classes.PasserCommande;
 import com.youcode.visionarycrofting.entity.Client;
+import com.youcode.visionarycrofting.entity.Command;
 import com.youcode.visionarycrofting.service.ClientService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "visionarycrofting/Client")
@@ -22,8 +27,12 @@ private final ClientService clientService;
         return clientService.getClients();
     }
 
+    @GetMapping("/{client_id}")
+    public Optional<Client> getOne(@PathVariable("client_id") Long clientId){
+        return clientService.getOneById(clientId);
+    }
+
     @PostMapping("/addClient")
-    @ResponseBody
     public void registerNewClient(@RequestBody Client client)
     {
         clientService.addClient(client);
@@ -36,15 +45,19 @@ private final ClientService clientService;
     }
 
 
-    @PutMapping(path = "/updateClient/{clientId}")
-    public void updateClient(@PathVariable("clientId") Long clientId,
-                             @RequestParam(required = false) String name,
-                             @RequestParam(required = false) String email,
-                             @RequestParam(required = false) String phone,
-                             @RequestParam(required = false) String password,
-                             @RequestParam(required = false) String address)
+    @PutMapping(path = "/updateClient")
+    public void updateClient(@RequestBody Client client)
 
     {
-        clientService.updateClient(clientId, name, email,password,phone,address);
+        clientService.updateClient(client);
     }
+
+
+    @PostMapping("/passer_commande/{id}")
+    @ResponseBody
+    public Client passerCommande(@PathVariable Long id,@RequestBody Collection<PasserCommande> productList)
+    {
+        return clientService.passerCommande(id, productList);
+    }
+
 }

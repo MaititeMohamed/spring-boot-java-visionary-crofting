@@ -1,8 +1,4 @@
 package com.youcode.visionarycrofting.entity;
-
-
-
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +16,11 @@ public class Command {
  private String dateTime;
  private int totalPrice ;
  private String address;
+
+ @ManyToOne
+ private Client client;
  @OneToMany(mappedBy = "command")
-private List<CommandItem> listItem = new ArrayList <> (  );
+ private List<CommandItem> listItem = new ArrayList <> (  );
 
  public Command(Long id, String ref, String dateTime, int totalPrice, String address, List<CommandItem> listItem) {
   this.id = id;
@@ -90,6 +89,10 @@ private List<CommandItem> listItem = new ArrayList <> (  );
 
  public void setAddress(String address) {
   this.address = address;
+ }
+
+ public void setItem(CommandItem commandItem){
+  this.listItem.add(commandItem);
  }
 
  @Override
