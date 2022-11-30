@@ -23,7 +23,6 @@ public class CommandService {
 
     @Autowired
     public CommandService(CommandRepository commandRepository, CommandItemService commandItemService) {
-
         this.commandRepository = commandRepository;
         this.commandItemService = commandItemService;
     }
@@ -105,6 +104,7 @@ public class CommandService {
         productList.stream().forEach((product) -> {
             command.setItem(commandItemService.createCommandItem(product.getRef(), product.getQuantity()));
         });
+        commandRepository.save ( command );
         return command;
     }
 }
