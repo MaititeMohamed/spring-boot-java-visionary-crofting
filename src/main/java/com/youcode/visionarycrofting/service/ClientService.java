@@ -94,6 +94,8 @@ return clientUpdated;
         Optional<Client> client=clientRepository.findById(id);
         Command command = commandService.createCommand(productList, client.get ());
 
+
+
         return addCommand(command, id);
     }
 
