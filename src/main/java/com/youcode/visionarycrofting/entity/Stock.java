@@ -105,6 +105,9 @@ public class Stock {
     public void setInvoiceList(List<Invoice> invoiceList) {
         this.invoiceList = invoiceList;
     }
+    public void setInvoice(Invoice invoice) {
+        this.invoiceList.add(invoice);
+    }
 
     @Override
     public String toString() {
