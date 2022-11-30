@@ -22,7 +22,13 @@ public class ProductService {
     }
 
     public Product addProduct ( Product product ) {
-        return productRepository.save ( product );
+        //Optional<Product> productOptional = productRepository.findProductByProductReference ( product.getProductReference () );
+
+        //if (!productOptional.isPresent ()){
+            return productRepository.save ( product );
+        //} else {
+        //    return updateProduct ( product );
+        //}
     }
 
     public Product updateProduct ( Product product ) {

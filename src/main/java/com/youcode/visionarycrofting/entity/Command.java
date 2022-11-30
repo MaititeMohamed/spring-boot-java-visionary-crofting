@@ -1,4 +1,6 @@
 package com.youcode.visionarycrofting.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +20,20 @@ public class Command {
  private String address;
 
  @ManyToOne
+ @JsonIgnore
  private Client client;
  @OneToMany(mappedBy = "command",fetch = FetchType.EAGER)
  private List<CommandItem> listItem = new ArrayList <> (  );
 
- public Command(Long id, String ref, String dateTime, double totalPrice, String address, List<CommandItem> listItem) {
+ public Client getClient ( ) {
+  return client;
+ }
+
+ public void setClient ( Client client ) {
+  this.client = client;
+ }
+
+ public Command( Long id, String ref, String dateTime, double totalPrice, String address, List<CommandItem> listItem) {
   this.id = id;
   this.ref = ref;
   this.dateTime = dateTime;
