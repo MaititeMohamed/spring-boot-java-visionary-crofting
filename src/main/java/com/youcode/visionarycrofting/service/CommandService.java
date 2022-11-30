@@ -122,8 +122,6 @@ public Command createCommand(Collection<PasserCommande> productList ,Long id) {
 
     });
 
-
-
     command.setTotalPrice(0.0);
     System.out.println(command.toString());
     command.getListItem().stream().forEach((item) -> {
