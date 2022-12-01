@@ -11,7 +11,7 @@ import java.util.List;
 @Configuration
 public class providerConfig {
     @Bean
-    CommandLineRunner commandLineRunner3 (ProviderRepository providerRepository){
+    CommandLineRunner commandLineRunner2 (ProviderRepository providerRepository){
         return args -> {
             Provider p1 = new Provider("jamal","raouj","jamal@gmail.com","1234","846236723","rabat");
             Provider p2 = new Provider("taybe","taybe","taybe@gmail.com","1234","87234723","rabat");

@@ -1,5 +1,8 @@
 package com.youcode.visionarycrofting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.youcode.visionarycrofting.classes.Message;
+
 import javax.persistence.*;
 import java.util.Optional;
 
@@ -12,9 +15,11 @@ public class Invoice {
     private String ref;
     @ManyToOne
     @JoinColumn(name = "provider_id")
+    @JsonIgnore
     private Provider provider;
     @ManyToOne
     @JoinColumn(name = "stock_id")
+    @JsonIgnore
     private Stock stock;
     private Integer quantity;
 
@@ -84,5 +89,16 @@ public class Invoice {
         this.provider = provider;
         this.stock = stock;
         this.quantity = quantity;
+    }
+
+    @Transient
+    private Message message;
+
+    public Message getMessage ( ) {
+        return message;
+    }
+
+    public void setMessage ( Message message ) {
+        this.message = message;
     }
 }

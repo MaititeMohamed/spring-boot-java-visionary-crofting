@@ -51,7 +51,6 @@ public class StockController {
     @ResponseBody
     public Invoice addInvoice(@RequestBody AppelDoffre appelDoffre){
         return  stockService.addAppelDoffre(appelDoffre);
-
     }
 
 }
