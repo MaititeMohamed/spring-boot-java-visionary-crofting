@@ -86,6 +86,7 @@ public class ClientService {
 
     public Client updateClient(Client client)
     {
+        Message message = new Message (  );
         Client clientUpdated=clientRepository.findById(client.getId()).
                 orElseThrow(()->new IllegalStateException("this client number:"+client.getId()+" does not exist"));
 
@@ -95,7 +96,11 @@ public class ClientService {
        if (client.getPassword()!=null)  clientUpdated.setPassword(client.getPassword());
        if (client.getPassword()!=null) clientUpdated.setPhone(client.getPhone());
        if (client.getAddress()!=null) clientUpdated.setAddress(client.getAddress());
-        clientRepository.save(clientUpdated);
+
+       message.setState ( "Success" );
+       message.setMessage ( "Client has ben up to date" );
+        clientUpdated.setMessage ( message );
+       clientRepository.save(clientUpdated);
 
          return clientUpdated;
     }

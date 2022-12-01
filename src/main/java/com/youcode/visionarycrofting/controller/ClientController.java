@@ -47,10 +47,10 @@ private final ClientService clientService;
 
 
     @PutMapping(path = "/updateClient")
-    public void updateClient(@RequestBody Client client)
+    public Client updateClient(@RequestBody Client client)
 
     {
-        clientService.updateClient(client);
+        return clientService.updateClient(client);
     }
 
 
