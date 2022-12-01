@@ -1,4 +1,6 @@
 package com.youcode.visionarycrofting.entity;
+import com.youcode.visionarycrofting.classes.Message;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +15,11 @@ public class Stock {
     private String password;
     private String phone;
     private String address;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Product> productList = new ArrayList<>();
     @OneToMany(mappedBy = "stock")
     private List<Invoice> invoiceList = new ArrayList<>();
+
 
 
     public Stock(Long id, String name, String email, String password, String phone, String address) {
@@ -121,5 +124,16 @@ public class Stock {
                 ", productList=" + productList +
                 ", invoiceList=" + invoiceList +
                 '}';
+    }
+
+    @Transient
+    private Message message;
+
+    public Message getMessage ( ) {
+        return message;
+    }
+
+    public void setMessage ( Message message ) {
+        this.message = message;
     }
 }
