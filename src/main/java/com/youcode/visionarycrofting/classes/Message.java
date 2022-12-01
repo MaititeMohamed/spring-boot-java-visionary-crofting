@@ -4,15 +4,8 @@ public class Message {
 
     String state;
     String message;
-    Object obj;
 
     public Message ( ) {
-    }
-
-    public Message ( String state , String message , Object obj ) {
-        this.state = state;
-        this.message = message;
-        this.obj = obj;
     }
 
     public Message ( String state , String message ) {
@@ -28,9 +21,6 @@ public class Message {
         return message;
     }
 
-    public Object getObj ( ) {
-        return obj;
-    }
 
     public void setState ( String state ) {
         this.state = state;
@@ -40,16 +30,13 @@ public class Message {
         this.message = message;
     }
 
-    public void setObj ( Object obj ) {
-        this.obj = obj;
-    }
+
 
     @Override
     public String toString ( ) {
         return "Message{" +
                 "state='" + state + '\'' +
                 ", message='" + message + '\'' +
-                ", obj=" + obj +
                 '}';
     }
 }

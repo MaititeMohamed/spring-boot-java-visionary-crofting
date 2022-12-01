@@ -2,6 +2,7 @@ package com.youcode.visionarycrofting.service;
 
 
 import com.youcode.visionarycrofting.classes.AppelDoffre;
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.entity.Invoice;
 import com.youcode.visionarycrofting.entity.Product;
 import com.youcode.visionarycrofting.entity.Provider;
@@ -13,6 +14,8 @@ import com.youcode.visionarycrofting.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -86,21 +89,45 @@ public class StockService {
         }
         return null;
     }
+
+    @Transactional
     public Invoice addAppelDoffre(AppelDoffre appelDoffre){
-        Optional<Product> product = Optional.ofNullable(productRepository.getProductByProductReference(appelDoffre.getRefproduct()));
-        Optional<Provider> provider =  providerRepository.findProviderByEmail(appelDoffre.getProvideremail());
-        Optional<Stock> stock =  stockRepository.findByEmail(appelDoffre.getStockemail());
-//        if (provider.isPresent() && stock.isPresent()) {
-            Invoice invoice = new Invoice(product.get().getProductReference(), "ref-" + product.get().getId() + random(999, 10000000), provider.get(), stock.get(), appelDoffre.getQuantity());
-            return invoiceRepository.save(invoice);
-//        }
-//        return null;
+        Invoice invoice = new Invoice (  );
+        Message message = new Message (  );
+        Optional<Product> optionalProduct = productRepository.findProductByProductReference ( appelDoffre.getRefproduct () );
+        if (optionalProduct.isPresent ()){
+            Optional<Stock> optionalStock = stockRepository.findByEmail ( appelDoffre.getStockemail () );
+                    if (optionalStock.isPresent ()){
+                        Optional<Provider> optionalProvider = providerRepository.findProviderByEmail ( appelDoffre.getProvideremail () );
+                                if (optionalProvider.isPresent ()){
+                                    String invoidReference = optionalProvider.get ().getFirstName () +
+                                            "-" + optionalStock.get ().getName () +
+                                            "-" + optionalProduct.get ( ).getProductReference ( ) +
+                                            "-" + LocalDate.now ();
+                                    invoice.setStock ( optionalStock.get () );
+                                    invoice.setProvider ( optionalProvider.get () );
+                                    invoice.setRefproduct (optionalProduct.get ().getProductReference ());
+                                    invoice.setQuantity ( appelDoffre.getQuantity () );
+                                    invoice.setRef (invoidReference );
+                                    message.setMessage ( "Invoice has ben created" );
+                                    message.setState ( "Success" );
+                                    invoice.setMessage ( message );
+                                    return invoiceRepository.save ( invoice );
+                                }
+                        message.setMessage ( "Provider is not exists" );
+                        message.setState ( "Error" );
+                        invoice.setMessage ( message );
+                        return invoice;
+                    }
+            message.setMessage ( "Stock is not exists" );
+            message.setState ( "Error" );
+            invoice.setMessage ( message );
+            return invoice;
+        } else {
+            message.setMessage ( "Product is not exists" );
+            message.setState ( "Error" );
+            invoice.setMessage ( message );
+            return invoice;
+        }
     }
-    public Integer random(Integer min , Integer max){
-
-        return (int)Math.floor(Math.random()*(max-min+1)+min);
-
-    }
-
-
 }

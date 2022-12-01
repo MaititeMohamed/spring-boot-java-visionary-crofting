@@ -1,5 +1,6 @@
 package com.youcode.visionarycrofting.service;
 
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.entity.Product;
 import com.youcode.visionarycrofting.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,13 @@ import java.util.Optional;
 
 @Service
 public class ProductService {
-    private final ProductRepository productRepository;
-
     @Autowired
-    public ProductService ( ProductRepository productRepository ) {
-        this.productRepository = productRepository;
-    }
+    ProductRepository productRepository;
+
+
+    //public ProductService ( ProductRepository productRepository ) {
+    //    this.productRepository = productRepository;
+    //}
 
     public List< Product> getProducts ( ) {
         return productRepository.findAll ();
@@ -34,15 +36,29 @@ public class ProductService {
     public Product updateProduct ( Product product ) {
         Optional<Product> productOptional = productRepository.findById ( product.getId () );
 
-        if (!product.getName ().isEmpty () && product.getName () != null) productOptional.get ().setName ( product.getName ());
-        if (!product.getDescription ().isEmpty () && product.getDescription () != null) productOptional.get ().setDescription ( product.getDescription ());
-        if (!product.getCategory ().isEmpty () && product.getCategory () != null) productOptional.get ().setCategory ( product.getCategory ());
-        if (product.getQuantity () >= 0 && product.getQuantity () != null && productOptional.get ().getQuantity () != null) productOptional.get ().setQuantity ( productOptional.get().getQuantity () + product.getQuantity ());
-        if (productOptional.get().getQuantity () == null  && product.getQuantity () != null && product.getQuantity () >= 0) productOptional.get ().setQuantity ( product.getQuantity ());
-        if (product.getMinQuantity () >= 0  && product.getName () != null) productOptional.get ().setMinQuantity ( product.getMinQuantity ());
+        if (productOptional.isPresent () ){
+            if (!product.getName ().isEmpty () || product.getName () != null) productOptional.get ().setName ( product.getName ());
+            if (!product.getDescription ().isEmpty () || product.getDescription () != null) productOptional.get ().setDescription ( product.getDescription ());
+            if (!product.getCategory ().isEmpty () || product.getCategory () != null) productOptional.get ().setCategory ( product.getCategory ());
+            if (product.getQuantity () != null && productOptional.get ().getQuantity () != null && product.getQuantity () >= 0 ) productOptional.get ().setQuantity ( productOptional.get().getQuantity () + product.getQuantity ());
+            if (productOptional.get().getQuantity () == null  && product.getQuantity () != null && product.getQuantity () >= 0) productOptional.get ().setQuantity ( product.getQuantity ());
+            if (productOptional.get ().getQuantity () >= 0 && product.getQuantity () > 0 ) productOptional.get ().setQuantity ( productOptional.get().getQuantity () + product.getQuantity ());
+            if (product.getMinQuantity () >= 0  || product.getName () != null) productOptional.get ().setMinQuantity ( product.getMinQuantity ());
 
-        productRepository.save ( productOptional.get() );
-        return productOptional.get ();
+            productRepository.save ( productOptional.get() );
+            Message message = new Message ();
+            message.setState ( "Success" );
+            message.setMessage ( "Product up to date" );
+            productOptional.get ().setMessage ( message );
+            return productOptional.get ();
+        } else {
+            Message message = new Message ();
+            message.setMessage ( "Product is not exists" );
+            message.setState ( "Error" );
+            product.setMessage ( message );
+            return product;
+        }
+
     }
 
     public Integer deleteProduct ( Long id ) {

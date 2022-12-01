@@ -34,15 +34,15 @@ public class CommandService {
     }
 
     public  Command addNewCommand(Command command){
-        Optional<Command> commandOptional = commandRepository.findCommandById(command.getId());
+        //Optional<Command> commandOptional = commandRepository.findCommandById(command.getId());
 
-        if(commandOptional.isPresent()){
-            try {
-                throw  new IllegalAccessException("command  already exist");
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        //if(commandOptional.isPresent()){
+        //    try {
+        //        throw  new IllegalAccessException("command  already exist");
+        //    } catch (IllegalAccessException e) {
+        //        throw new RuntimeException(e);
+        //    }
+        //}
 
         commandRepository.save(command);
         return command;

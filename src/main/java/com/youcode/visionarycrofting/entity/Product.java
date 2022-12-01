@@ -1,6 +1,7 @@
 package com.youcode.visionarycrofting.entity;
 
 
+import com.youcode.visionarycrofting.classes.Message;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -21,6 +22,17 @@ public class Product {
     private String category;
     private Integer quantity;
     private Integer minQuantity;
+
+    @Transient
+    private Message message;
+
+    public Message getMessage ( ) {
+        return message;
+    }
+
+    public void setMessage ( Message message ) {
+        this.message = message;
+    }
 
     public Product ( ) {    }
 

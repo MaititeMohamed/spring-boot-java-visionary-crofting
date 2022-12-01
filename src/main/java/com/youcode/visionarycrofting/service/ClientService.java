@@ -4,6 +4,7 @@ package com.youcode.visionarycrofting.service;
 import com.youcode.visionarycrofting.classes.PasserCommande;
 import com.youcode.visionarycrofting.entity.Client;
 import com.youcode.visionarycrofting.entity.Command;
+import com.youcode.visionarycrofting.entity.Product;
 import com.youcode.visionarycrofting.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,4 +98,7 @@ return clientUpdated;
         return addCommand(command, id);
     }
 
+    public List< Command> getCommandByClient ( Long id ) {
+        return clientRepository.findCommandByClient ( id );
+    }
 }
