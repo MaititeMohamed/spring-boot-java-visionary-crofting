@@ -1,6 +1,7 @@
 package com.youcode.visionarycrofting.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.youcode.visionarycrofting.classes.Message;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -122,5 +123,16 @@ public class Client implements Serializable {
                 ", address='" + address + '\'' +
                 ", commandList=" + commandList +
                 '}';
+    }
+
+    @Transient
+    private Message message;
+
+    public Message getMessage ( ) {
+        return message;
+    }
+
+    public void setMessage ( Message message ) {
+        this.message = message;
     }
 }

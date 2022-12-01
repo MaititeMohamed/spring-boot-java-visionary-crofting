@@ -36,18 +36,29 @@ public class ClientService {
 
     public Client addClient(Client client)
     {
+        Message message = new Message (  );
         Optional<Client> clientOptional=clientRepository.findClientByEmail(client.getEmail());
 
         if (client.getAddress()==null || client.getEmail()==null || client.getPassword()==null ||  client.getName()==null || client.getPhone()==null)
         {
-           throw new IllegalStateException("merci de remplir tous les informations du client  ");
+            message.setState ( "Error" );
+            message.setMessage ( "merci de remplir tous les informations du client" );
+            client.setMessage ( message );
+            return client;
+           //throw new IllegalStateException("merci de remplir tous les informations du client  ");
         }
         if (clientOptional.isPresent())
         {
-            throw new IllegalStateException("email déja exist");
+            message.setState ( "Error" );
+            message.setMessage ( "email déja exist" );
+            client.setMessage ( message );
+            return client;
+            //throw new IllegalStateException("email déja exist");
         }
 
-
+        message.setState ( "Success" );
+        message.setMessage ( "Client has ben created" );
+        client.setMessage(message);
         clientRepository.save(client);
         return client;
     }
