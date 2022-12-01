@@ -34,16 +34,6 @@ public class CommandService {
     }
 
     public  Command addNewCommand(Command command){
-        //Optional<Command> commandOptional = commandRepository.findCommandById(command.getId());
-
-        //if(commandOptional.isPresent()){
-        //    try {
-        //        throw  new IllegalAccessException("command  already exist");
-        //    } catch (IllegalAccessException e) {
-        //        throw new RuntimeException(e);
-        //    }
-        //}
-
         commandRepository.save(command);
         return command;
     }
@@ -53,17 +43,19 @@ public class CommandService {
     public List<Command> getCommand(){
         return  commandRepository.findAll();
     }
-    public void  deleteCommand(Long id){
+    public Integer  deleteCommand(Long id){
       boolean exists = commandRepository.existsById(id);
        if(!exists){
+          return  -1;
+       }else {
+
            try {
-               throw  new IllegalAccessException(
-                       "this command dos not exists");
-           } catch (IllegalAccessException e) {
-               throw new RuntimeException(e);
+               commandRepository.deleteById(id);
+               return 1;
+           } catch (Exception e){
+               return 0;
            }
        }
-         commandRepository.deleteById(id);
     }
 
     @Transactional
@@ -111,7 +103,6 @@ public Command createCommand(Collection<PasserCommande> productList ,Client clie
     Command command = new Command();
     Random rand = new Random();
     int n = rand.nextInt(1000);
-
     command.setAddress(client.getAddress());
     String commandRef="Ref"+client.getName()+"-"+n;
     command.setRef(commandRef);
@@ -123,9 +114,7 @@ public Command createCommand(Collection<PasserCommande> productList ,Client clie
         command.setItem(commandItemService.createCommandItem(product.getRef(), product.getQuantity(), command));
 
     });
-
     command.setTotalPrice(0.0);
-    //System.out.println(command.toString());
     command.getListItem().stream().forEach((item) -> {
         command.setTotalPrice( command.getTotalPrice () + item.getPrice ());
         System.out.println(item.getPrice());

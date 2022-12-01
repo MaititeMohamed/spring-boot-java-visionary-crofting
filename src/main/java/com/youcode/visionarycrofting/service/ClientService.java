@@ -37,8 +37,6 @@ public class ClientService {
     {
         Optional<Client> clientOptional=clientRepository.findClientByEmail(client.getEmail());
 
-
-
         if (client.getAddress()==null || client.getEmail()==null || client.getPassword()==null ||  client.getName()==null || client.getPhone()==null)
         {
            throw new IllegalStateException("merci de remplir tous les informations du client  ");
@@ -79,7 +77,7 @@ public class ClientService {
        if (client.getAddress()!=null) clientUpdated.setAddress(client.getAddress());
         clientRepository.save(clientUpdated);
 
-return clientUpdated;
+         return clientUpdated;
     }
 
 

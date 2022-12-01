@@ -23,10 +23,9 @@ public class CommandController {
         this.commandService = commandService;
     }
 
-    @PostMapping("/addcommand/{id}")
-    public  Command  addNewCommand(@RequestBody Command command, @PathVariable Long id){
+    @PostMapping("/addcommand")
+    public  Command  addNewCommand(@RequestBody Command command){
         return commandService.addNewCommand(command);
-
     }
     @GetMapping
     public List<Command> getAllCommand(){
@@ -34,7 +33,8 @@ public class CommandController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteCommand(@PathVariable("id")Long id){commandService.deleteCommand(id);};
+    public Integer deleteCommand(@PathVariable("id")Long id){
+        return  commandService.deleteCommand(id);};
 
  @PutMapping(path = "/{id}")
    public  void updateCommand(
