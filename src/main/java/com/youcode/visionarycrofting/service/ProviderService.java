@@ -1,6 +1,7 @@
 package com.youcode.visionarycrofting.service;
 
 
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.entity.Client;
 import com.youcode.visionarycrofting.entity.Provider;
 import com.youcode.visionarycrofting.repository.ProviderRepository;
@@ -41,21 +42,31 @@ public class ProviderService {
     }
 
 
-    public void deleteProvider(Long providerId)
+    public Message deleteProvider( Long providerId)
     {
+        Message message = new Message (  );
         Boolean exists=providerRepository.existsById(providerId);
         if(!exists)
         {
-            throw new IllegalStateException("this provider number:"+providerId+" does not exist");
+            message.setState ( "Error" );
+            message.setMessage ( "this provider number:"+providerId+" does not exist" );
+            return message;
+            //throw new IllegalStateException("this provider number:"+providerId+" does not exist");
+        } else {
+            providerRepository.deleteById(providerId);
+            message.setState ( "Success" );
+            message.setMessage ( "Provider has ben deleted" );
+            return message;
         }
 
-        providerRepository.deleteById(providerId);
+
     }
 
 
     @Transactional
-    public void updateProvider(Provider provider)
+    public Provider updateProvider(Provider provider)
     {
+        Message message = new Message (  );
         Provider providerUpdated=providerRepository.findById(provider.getId()).
                 orElseThrow(()->new IllegalStateException("this provider number:"+provider.getId()+" does not exist"));
 
@@ -66,6 +77,11 @@ public class ProviderService {
         if (provider.getPhone()!=null) providerUpdated.setPhone(provider.getPhone());
         if (provider.getAddress()!=null) providerUpdated.setAddress(provider.getAddress());
 
+
+        message.setState ( "Success" );
+        message.setMessage ( "Provider has ben up to date" );
+        provider.setMessage ( message );
+        return provider;
 
     }
 }
