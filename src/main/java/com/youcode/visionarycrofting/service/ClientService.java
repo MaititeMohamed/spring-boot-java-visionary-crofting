@@ -1,6 +1,7 @@
 package com.youcode.visionarycrofting.service;
 
 
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.classes.PasserCommande;
 import com.youcode.visionarycrofting.entity.Client;
 import com.youcode.visionarycrofting.entity.Command;
@@ -33,7 +34,7 @@ public class ClientService {
         return clientRepository.findById(id);
     }
 
-    public void addClient(Client client)
+    public Client addClient(Client client)
     {
         Optional<Client> clientOptional=clientRepository.findClientByEmail(client.getEmail());
 
@@ -48,16 +49,24 @@ public class ClientService {
 
 
         clientRepository.save(client);
+        return client;
     }
 
-    public void deleteClient(Long clientId) {
-       Boolean exists=clientRepository.existsById(clientId);
+    public Message deleteClient( Long clientId) {
+        Message message = new Message (  );
+       Boolean exists = clientRepository.existsById(clientId);
        if(!exists)
        {
-            throw new IllegalStateException("this client number:"+clientId+" does not exist");
+           message.setState ( "Error" );
+           message.setMessage ( "Client not exists" );
+           return message;
+            //throw new IllegalStateException("this client number:"+clientId+" does not exist");
+       } else {
+           clientRepository.deleteById(clientId);
+           message.setState ( "Success" );
+           message.setMessage ( "Client has ben deleted" );
+           return message;
        }
-
-       clientRepository.deleteById(clientId);
     }
 
 

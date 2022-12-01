@@ -1,6 +1,7 @@
 package com.youcode.visionarycrofting.controller;
 
 
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.classes.PasserCommande;
 import com.youcode.visionarycrofting.entity.Client;
 import com.youcode.visionarycrofting.entity.Command;
@@ -33,15 +34,15 @@ private final ClientService clientService;
     }
 
     @PostMapping("/addClient")
-    public void registerNewClient(@RequestBody Client client)
+    public Client registerNewClient(@RequestBody Client client)
     {
-        clientService.addClient(client);
+        return clientService.addClient(client);
     }
 
     @DeleteMapping(path = "deleteClient/{clientId}")
-    public void deleteClient(@PathVariable("clientId") Long clientId)
+    public Message deleteClient( @PathVariable("clientId") Long clientId)
     {
-        clientService.deleteClient(clientId);
+        return clientService.deleteClient(clientId);
     }
 
 
