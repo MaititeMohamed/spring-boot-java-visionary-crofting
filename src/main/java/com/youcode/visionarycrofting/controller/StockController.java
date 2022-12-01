@@ -3,6 +3,7 @@ package com.youcode.visionarycrofting.controller;
 import com.google.gson.Gson;
 import com.youcode.visionarycrofting.classes.AppelDoffre;
 import com.youcode.visionarycrofting.entity.Invoice;
+import com.youcode.visionarycrofting.entity.Product;
 import com.youcode.visionarycrofting.entity.Stock;
 import com.youcode.visionarycrofting.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,4 +54,9 @@ public class StockController {
         return  stockService.addAppelDoffre(appelDoffre);
     }
 
+    @PostMapping("/addproduct/{id}")
+    @ResponseBody
+    public Stock addProduct(@PathVariable Long id, @RequestBody Product product){
+        return stockService.addProduct(id, product);
+    }
 }

@@ -2,6 +2,7 @@ package com.youcode.visionarycrofting.service;
 
 import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.entity.Product;
+import com.youcode.visionarycrofting.entity.Stock;
 import com.youcode.visionarycrofting.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,7 @@ public class ProductService {
     }
 
     public Product addProduct ( Product product ) {
-        //Optional<Product> productOptional = productRepository.findProductByProductReference ( product.getProductReference () );
-
-        //if (!productOptional.isPresent ()){
-            return productRepository.save ( product );
-        //} else {
-        //    return updateProduct ( product );
-        //}
+        return productRepository.save ( product );
     }
 
     public Product updateProduct ( Product product ) {
@@ -117,6 +112,12 @@ public class ProductService {
     public Product getProductByReference(String reference){
         Product product =  productRepository.getProductByProductReference(reference);
         return product;
+    }
+
+    public Product addProductInStock(Product product, Stock stock) {
+        product.setStockList ( stock );
+        System.out.println ( product.toString () );
+        return addProduct ( product );
     }
 
 }

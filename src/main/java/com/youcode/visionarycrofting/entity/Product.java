@@ -130,14 +130,14 @@ public class Product {
         this.minQuantity = minQuantity;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             })
     @JoinTable(name = "product_stock",
-            joinColumns = { @JoinColumn(name = "stock_id") },
-            inverseJoinColumns = { @JoinColumn(name = "product_id") })
+            joinColumns = { @JoinColumn(name = "product_id") },
+            inverseJoinColumns = { @JoinColumn(name = "stock_id") })
     private List<Stock> stockList = new ArrayList <> (  );
 
     @OneToMany(mappedBy = "product")
@@ -155,6 +155,15 @@ public class Product {
                 ", category='" + category + '\'' +
                 ", quantity=" + quantity +
                 ", minQuantity=" + minQuantity +
+                ", stok = " + stockList +
                 '}';
+    }
+
+    public List < Stock > getStockList ( ) {
+        return stockList;
+    }
+
+    public void setStockList ( Stock stock ) {
+        this.stockList.add ( stock );
     }
 }

@@ -26,6 +26,8 @@ public class StockService {
     StockRepository stockRepository;
     @Autowired
     InvoiceRepository invoiceRepository;
+    @Autowired
+    ProductService productService;
 
     @Autowired
     ProviderRepository providerRepository;
@@ -128,6 +130,23 @@ public class StockService {
             message.setState ( "Error" );
             invoice.setMessage ( message );
             return invoice;
+        }
+    }
+
+    public Stock addProduct ( Long idStock , Product product) {
+        Message message = new Message ();
+        Optional<Stock> optionalStock = stockRepository.findById ( idStock );
+        if (optionalStock.isPresent ()) {
+            productService.addProductInStock(product, optionalStock.get ());
+            message.setState ( "Success" );
+            message.setMessage ( "Product has ben created" );
+            optionalStock.get ().setMessage ( message );
+            return optionalStock.get ();
+        } else {
+            message.setMessage ( "Stock is not exists" );
+            message.setState ( "Error" );
+            optionalStock.get ().setMessage ( message );
+            return optionalStock.get ();
         }
     }
 }
