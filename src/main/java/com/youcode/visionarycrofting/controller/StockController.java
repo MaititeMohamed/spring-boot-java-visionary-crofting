@@ -2,6 +2,7 @@ package com.youcode.visionarycrofting.controller;
 
 import com.google.gson.Gson;
 import com.youcode.visionarycrofting.classes.AppelDoffre;
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.entity.Invoice;
 import com.youcode.visionarycrofting.entity.Product;
 import com.youcode.visionarycrofting.entity.Stock;
@@ -37,8 +38,8 @@ public class StockController {
 
     @DeleteMapping(path = "/delete/{stockid}")
     @ResponseBody
-    public void deleteStockById(@PathVariable("stockid") Long id){
-        stockService.deleteStockById(id);
+    public Message deleteStockById( @PathVariable("stockid") Long id){
+        return stockService.deleteStockById(id);
     }
 
     @PutMapping(path = "/update/{stockid}")

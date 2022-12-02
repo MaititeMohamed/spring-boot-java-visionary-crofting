@@ -1,6 +1,7 @@
 package com.youcode.visionarycrofting.service;
 
 
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.classes.PasserCommande;
 import com.youcode.visionarycrofting.entity.Client;
 import com.youcode.visionarycrofting.entity.Command;
@@ -33,31 +34,50 @@ public class ClientService {
         return clientRepository.findById(id);
     }
 
-    public void addClient(Client client)
+    public Client addClient(Client client)
     {
+        Message message = new Message (  );
         Optional<Client> clientOptional=clientRepository.findClientByEmail(client.getEmail());
 
         if (client.getAddress()==null || client.getEmail()==null || client.getPassword()==null ||  client.getName()==null || client.getPhone()==null)
         {
-           throw new IllegalStateException("merci de remplir tous les informations du client  ");
+            message.setState ( "Error" );
+            message.setMessage ( "merci de remplir tous les informations du client" );
+            client.setMessage ( message );
+            return client;
+           //throw new IllegalStateException("merci de remplir tous les informations du client  ");
         }
         if (clientOptional.isPresent())
         {
-            throw new IllegalStateException("email déja exist");
+            message.setState ( "Error" );
+            message.setMessage ( "email déja exist" );
+            client.setMessage ( message );
+            return client;
+            //throw new IllegalStateException("email déja exist");
         }
 
-
+        message.setState ( "Success" );
+        message.setMessage ( "Client has ben created" );
+        client.setMessage(message);
         clientRepository.save(client);
+        return client;
     }
 
-    public void deleteClient(Long clientId) {
-       Boolean exists=clientRepository.existsById(clientId);
+    public Message deleteClient( Long clientId) {
+        Message message = new Message (  );
+       Boolean exists = clientRepository.existsById(clientId);
        if(!exists)
        {
-            throw new IllegalStateException("this client number:"+clientId+" does not exist");
+           message.setState ( "Error" );
+           message.setMessage ( "Client not exists" );
+           return message;
+            //throw new IllegalStateException("this client number:"+clientId+" does not exist");
+       } else {
+           clientRepository.deleteById(clientId);
+           message.setState ( "Success" );
+           message.setMessage ( "Client has ben deleted" );
+           return message;
        }
-
-       clientRepository.deleteById(clientId);
     }
 
 
@@ -66,6 +86,7 @@ public class ClientService {
 
     public Client updateClient(Client client)
     {
+        Message message = new Message (  );
         Client clientUpdated=clientRepository.findById(client.getId()).
                 orElseThrow(()->new IllegalStateException("this client number:"+client.getId()+" does not exist"));
 
@@ -75,7 +96,11 @@ public class ClientService {
        if (client.getPassword()!=null)  clientUpdated.setPassword(client.getPassword());
        if (client.getPassword()!=null) clientUpdated.setPhone(client.getPhone());
        if (client.getAddress()!=null) clientUpdated.setAddress(client.getAddress());
-        clientRepository.save(clientUpdated);
+
+       message.setState ( "Success" );
+       message.setMessage ( "Client has ben up to date" );
+        clientUpdated.setMessage ( message );
+       clientRepository.save(clientUpdated);
 
          return clientUpdated;
     }

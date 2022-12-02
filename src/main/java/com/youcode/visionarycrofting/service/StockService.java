@@ -64,12 +64,19 @@ public class StockService {
             return null;
         }
     }
-    public void deleteStockById(Long id) {
+    public Message deleteStockById(Long id) {
+        Message message = new Message (  );
         boolean exist = stockRepository.existsById(id);
         if(!exist){
-            throw new IllegalStateException("stock with id "+ id + " does not exist");
+            message.setState ( "Error" );
+            message.setMessage ( "stock with id "+ id + " does not exist" );
+            return message;
+            //throw new IllegalStateException("stock with id "+ id + " does not exist");
         }
         stockRepository.deleteById(id);
+        message.setState ( "Success" );
+        message.setMessage ( "Client has ben deleted" );
+        return message;
     }
 
     public Optional<Stock> findById(Long id){
