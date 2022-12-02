@@ -64,12 +64,23 @@ public class StockService {
             return null;
         }
     }
-    public void deleteStockById(Long id) {
+    public Message deleteStockById(Long id) {
         boolean exist = stockRepository.existsById(id);
+        Message message = new Message();
         if(!exist){
-            throw new IllegalStateException("stock with id "+ id + " does not exist");
+            message.setMessage("stock with id "+ id + " does not exist");
+            message.setState("Error");
+        }else {
+            try {
+                stockRepository.deleteById(id);
+                message.setMessage("success");
+                message.setState("success");
+            } catch (Exception e) {
+                message.setMessage("Exception");
+                message.setState("Error");
+            }
         }
-        stockRepository.deleteById(id);
+        return message;
     }
 
     public Optional<Stock> findById(Long id){
@@ -77,16 +88,28 @@ public class StockService {
     }
 
     public Stock updateStock(Long id ,Stock stock) {
+
         Optional<Stock> stockFromDB ;
         if (!stock.equals(new Stock()) && stock != null && id>= 0 ){
          stockFromDB = stockRepository.findById(id);
-        if(!stock.getName().isEmpty() && stock.getName() != null){stockFromDB.get().setName(stock.getName());}
-        if(!stock.getPassword().isEmpty() && stock.getPassword() != null){stockFromDB.get().setPassword(stock.getPassword());}
-        if(!stock.getPhone().isEmpty() && stock.getPhone() != null){stockFromDB.get().setPhone(stock.getPhone());}
-        if(!stock.getEmail().isEmpty() && stock.getEmail() != null){stockFromDB.get().setEmail(stock.getEmail());}
-        if(!stock.getAddress().isEmpty() && stock.getAddress() != null){stockFromDB.get().setAddress(stock.getAddress());}
-
-        stockRepository.save(stockFromDB.get());
+         if(stockFromDB.isPresent()) {
+             if (!stock.getName().isEmpty() && stock.getName() != null) {
+                 stockFromDB.get().setName(stock.getName());
+             }
+             if (!stock.getPassword().isEmpty() && stock.getPassword() != null) {
+                 stockFromDB.get().setPassword(stock.getPassword());
+             }
+             if (!stock.getPhone().isEmpty() && stock.getPhone() != null) {
+                 stockFromDB.get().setPhone(stock.getPhone());
+             }
+             if (!stock.getEmail().isEmpty() && stock.getEmail() != null) {
+                 stockFromDB.get().setEmail(stock.getEmail());
+             }
+             if (!stock.getAddress().isEmpty() && stock.getAddress() != null) {
+                 stockFromDB.get().setAddress(stock.getAddress());
+             }
+             stockRepository.save(stockFromDB.get());
+         }
         return stockFromDB.get();
         }
         return null;

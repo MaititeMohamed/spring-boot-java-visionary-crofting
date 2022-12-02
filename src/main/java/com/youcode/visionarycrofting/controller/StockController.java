@@ -2,9 +2,11 @@ package com.youcode.visionarycrofting.controller;
 
 import com.google.gson.Gson;
 import com.youcode.visionarycrofting.classes.AppelDoffre;
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.entity.Invoice;
 import com.youcode.visionarycrofting.entity.Product;
 import com.youcode.visionarycrofting.entity.Stock;
+import com.youcode.visionarycrofting.service.InvoiceService;
 import com.youcode.visionarycrofting.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class StockController {
     @Autowired
     StockService stockService;
+    @Autowired
+    InvoiceService invoiceService;
     @GetMapping
     @ResponseBody
     public List<Stock> findAll(){
@@ -37,8 +41,8 @@ public class StockController {
 
     @DeleteMapping(path = "/delete/{stockid}")
     @ResponseBody
-    public void deleteStockById(@PathVariable("stockid") Long id){
-        stockService.deleteStockById(id);
+    public Message deleteStockById(@PathVariable("stockid") Long id){
+        return stockService.deleteStockById(id);
     }
 
     @PutMapping(path = "/update/{stockid}")
@@ -59,4 +63,6 @@ public class StockController {
     public Stock addProduct(@PathVariable Long id, @RequestBody Product product){
         return stockService.addProduct(id, product);
     }
+
+
 }

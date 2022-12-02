@@ -1,6 +1,7 @@
 package com.youcode.visionarycrofting.controller;
 
 
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.entity.Invoice;
 import com.youcode.visionarycrofting.entity.Stock;
 import com.youcode.visionarycrofting.service.InvoiceService;
@@ -13,33 +14,33 @@ import java.util.List;
 @RequestMapping(path = "/visionarycrofting/invoice")
 public class InvoiceController {
     @Autowired
-    private final InvoiceService invoiceService;
-
-    public InvoiceController(InvoiceService invoiceService) {
-        this.invoiceService = invoiceService;
-    }
+    private InvoiceService invoiceService;
 
     @GetMapping("/")
+    @ResponseBody
     public List<Invoice> getInvoice(){return invoiceService.getInvoices();}
 
-    @PostMapping("/insert")
-    public void addInvoice(@RequestBody Invoice invoice)
+    @PostMapping("/insert/{idstock}/{idprovider}")
+    @ResponseBody
+    public Invoice addInvoice(@PathVariable("idstock") Long idstock ,@PathVariable("idprovider") Long idprovider , @RequestBody Invoice invoice)
     {
-        invoiceService.addInvoice(invoice);
+        return invoiceService.addInvoice(idstock ,idprovider  , invoice);
     }
 
     @DeleteMapping("/delete/{invoiceId}")
-    public void deleteInvoice(@PathVariable("invoiceId") Long invoiceId )
+    @ResponseBody
+    public Message deleteInvoice(@PathVariable("invoiceId") Long invoiceId )
     {
-        invoiceService.deleteInvoice(invoiceId);
+       return invoiceService.deleteInvoice(invoiceId);
     }
 
     @PutMapping("/update/{invoiceId}")
-    public void updateProvider(@PathVariable("invoiceId") Long invoiceId,
+    @ResponseBody
+    public Invoice updateProvider(@PathVariable("invoiceId") Long invoiceId,
                                @RequestBody Invoice invoice
     )
     {
 
-        invoiceService.updateInvoice(invoiceId , invoice);
+       return invoiceService.updateInvoice(invoiceId , invoice);
     }
 }

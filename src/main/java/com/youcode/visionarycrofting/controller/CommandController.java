@@ -44,7 +44,6 @@ public class CommandController {
            @RequestParam(required = false) String address,
            @RequestParam(required = false) int totalPrice
      ){
-
        commandService.updateCommand(id,ref,dateTime,address,totalPrice);
 
    }
