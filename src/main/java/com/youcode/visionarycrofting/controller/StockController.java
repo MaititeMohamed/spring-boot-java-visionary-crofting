@@ -42,6 +42,7 @@ public class StockController {
     @DeleteMapping(path = "/delete/{stockid}")
     @ResponseBody
     public Message deleteStockById(@PathVariable("stockid") Long id){
+
         return stockService.deleteStockById(id);
     }
 

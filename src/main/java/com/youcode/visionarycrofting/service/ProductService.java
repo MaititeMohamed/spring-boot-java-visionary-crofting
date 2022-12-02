@@ -25,7 +25,21 @@ public class ProductService {
     }
 
     public Product addProduct ( Product product ) {
-        return productRepository.save ( product );
+        Message message = new Message (  );
+        Optional<Product> productOptional = productRepository.findProductByProductReference ( product.getProductReference () );
+        if (productOptional.isPresent ()){
+            message.setState ( "Info" );
+            message.setMessage ( "Product is aready with this reference, please change a reference or update this product" );
+            product.setMessage ( message );
+            return product;
+        } else {
+            message.setState ( "Success" );
+            message.setMessage ( "Product has ben created" );
+            product.setMessage ( message );
+            productRepository.save ( product );
+            return product;
+        }
+
     }
 
     public Product updateProduct ( Product product ) {

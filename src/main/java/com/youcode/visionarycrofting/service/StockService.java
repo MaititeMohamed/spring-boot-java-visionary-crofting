@@ -65,6 +65,7 @@ public class StockService {
         }
     }
     public Message deleteStockById(Long id) {
+
         boolean exist = stockRepository.existsById(id);
         Message message = new Message();
         if(!exist){
@@ -80,7 +81,11 @@ public class StockService {
                 message.setState("Error");
             }
         }
-        return message;
+
+            message.setState ( "Error" );
+            message.setMessage ( "stock with id "+ id + " does not exist" );
+            return message;
+
     }
 
     public Optional<Stock> findById(Long id){

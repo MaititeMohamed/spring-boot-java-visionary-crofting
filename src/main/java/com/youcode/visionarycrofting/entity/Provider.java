@@ -1,7 +1,10 @@
 package com.youcode.visionarycrofting.entity;
 
+import com.youcode.visionarycrofting.classes.Message;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.lang.reflect.Member;
 
 
 @Entity
@@ -96,5 +99,16 @@ public class Provider implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    @Transient
+    private Message message;
+
+    public Message getMessage ( ) {
+        return message;
+    }
+
+    public void setMessage ( Message message ) {
+        this.message = message;
     }
 }
