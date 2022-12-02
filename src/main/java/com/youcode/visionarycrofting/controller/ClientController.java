@@ -54,11 +54,11 @@ private final ClientService clientService;
     }
 
 
-    @PostMapping("/passer_commande/{id}")
+    @PostMapping("/passer_commande/{idClient}")
     @ResponseBody
-    public Client passerCommande(@PathVariable Long id,@RequestBody Collection<PasserCommande> productList)
+    public Client passerCommande(@PathVariable Long idClient,@RequestBody Collection<PasserCommande> productList)
     {
-        return clientService.passerCommande(id, productList);
+        return clientService.passerCommande(idClient, productList);
     }
 
 }

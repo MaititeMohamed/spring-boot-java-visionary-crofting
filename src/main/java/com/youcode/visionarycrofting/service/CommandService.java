@@ -1,5 +1,6 @@
 package com.youcode.visionarycrofting.service;
 
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.classes.PasserCommande;
 import com.youcode.visionarycrofting.entity.Client;
 import com.youcode.visionarycrofting.entity.Command;
@@ -10,6 +11,7 @@ import com.youcode.visionarycrofting.repository.CommandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.attribute.standard.MediaSize;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
@@ -17,32 +19,59 @@ import java.util.*;
 @Service
 public class CommandService {
 
-
-    private  final CommandRepository commandRepository;
-    private final CommandItemService commandItemService;
-
-
-    private  final  CommandItemRepository commandItemRepository;
-
-    private final ClientRepository clientRepository;
     @Autowired
-    public CommandService(CommandRepository commandRepository, CommandItemService commandItemService, CommandItemRepository commandItemRepository, ClientRepository clientRepository) {
-        this.commandRepository = commandRepository;
-        this.commandItemService = commandItemService;
-        this.commandItemRepository = commandItemRepository;
-        this.clientRepository = clientRepository;
+    CommandRepository commandRepository;
+    @Autowired
+    CommandItemService commandItemService;
+    @Autowired
+    CommandItemRepository commandItemRepository;
+    @Autowired
+    ClientRepository clientRepository;
+
+    public Command addNewCommand(Command command)
+    {
+        boolean exists = commandRepository.existsByRef ( command.getRef () );
+        Message message = new Message (  );
+        if (exists){
+            message.setState ( "Info" );
+            message.setMessage ( "Reference Exists" );
+            command.setMessage ( message );
+            return command;
+        } else {
+            commandRepository.save(command);
+            message.setState ( "Success" );
+            message.setMessage ( "Command has ben created" );
+            command.setMessage ( message );
+            return command;
+        }
     }
-
-    public  Command addNewCommand(Command command){
-        commandRepository.save(command);
-        return command;
-    }
-
-
 
     public List<Command> getCommand(){
-        return  commandRepository.findAll();
+        List<Command> commandList = new ArrayList <> (  );
+        Message message = new Message (  );
+        try {
+            commandList =  commandRepository.findAll();
+
+            if (commandList.size () == 0){
+                message.setState ( "Info" );
+                message.setMessage ( "Dont have a command in your data base" );
+                Command command = new Command (  );
+                command.setMessage ( message );
+                commandList.add ( command );
+            }
+
+        } catch (Exception e){
+
+            message.setState ( "Exception" );
+            message.setMessage ( "Exception : " + e.toString () );
+            Command command = new Command (  );
+            command.setMessage ( message );
+            commandList.add ( command );
+        } finally {
+            return commandList;
+        }
     }
+
     public Integer  deleteCommand(Long id){
       boolean exists = commandRepository.existsById(id);
        if(!exists){

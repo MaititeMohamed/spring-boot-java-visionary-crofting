@@ -1,6 +1,7 @@
 package com.youcode.visionarycrofting.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.youcode.visionarycrofting.classes.Message;
 
 import javax.persistence.*;
 
@@ -108,5 +109,16 @@ public class CommandItem {
                 ", command=" + command +
                 ", product=" + product +
                 '}';
+    }
+
+    @Transient
+    private Message message;
+
+    public Message getMessage ( ) {
+        return message;
+    }
+
+    public void setMessage ( Message message ) {
+        this.message = message;
     }
 }

@@ -10,6 +10,8 @@ import com.youcode.visionarycrofting.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Transient;
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -80,10 +82,6 @@ public class ClientService {
        }
     }
 
-
-
-
-
     public Client updateClient(Client client)
     {
         Message message = new Message (  );
@@ -114,11 +112,12 @@ public class ClientService {
         return clientOptional.get();
     }
 
-    public Client passerCommande(Long id, Collection<PasserCommande> productList) {
-        Optional<Client> client=clientRepository.findById(id);
+    @Transactional
+    public Client passerCommande(Long idClient, Collection<PasserCommande> productList) {
+        Optional<Client> client = clientRepository.findById(idClient);
         Command command = commandService.createCommand(productList, client.get ());
 
-        return addCommand(command, id);
+        return addCommand(command, idClient);
     }
 
     public List< Command> getCommandByClient ( Long id ) {
