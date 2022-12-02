@@ -1,5 +1,6 @@
 package com.youcode.visionarycrofting.service;
 
+import com.youcode.visionarycrofting.classes.Message;
 import com.youcode.visionarycrofting.entity.Command;
 import com.youcode.visionarycrofting.entity.CommandItem;
 import com.youcode.visionarycrofting.entity.Product;
@@ -31,7 +32,8 @@ public class CommandItemService {
 
     public CommandItem createCommandItem ( String ref , Integer quantity, Command command ) {
         Product product = productService.getProductByReference ( ref );
-
+        Message message = new Message (  );
+        CommandItem commandItem1 = new CommandItem (  );
         if (product.getQuantity () > 0 &&
                 product.getQuantity () != null &&
                 product.getQuantity () >= quantity)
@@ -43,8 +45,13 @@ public class CommandItemService {
             product.setQuantity ( product.getQuantity () - quantity );
             productRepository.save(product);
             return commandItem;
+        } else {
+            message.setState ( "Infos" );
+            message.setMessage ( "Stock over" );
+            product.setMessage ( message );
+            commandItem1.setMessage(message);
+            return commandItem1;
         }
-        return null;
     }
 
     public Integer deleteCommandItem ( Long id ) {
